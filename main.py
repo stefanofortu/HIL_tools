@@ -2,75 +2,50 @@ from openpyxl import Workbook
 from importDictionary import importDictionary
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter, column_index_from_string
-from expressionSubtitution import substituteExpressionsInCol, substituteExpressionsByRows
+from expressionSubtitution import substituteExpressionsByRows, findExpressions
 
-function_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\Documentazione\\3.Tools\\F175_AF_SubsFunctions_v01.xlsx"
-wb2 = load_workbook(function_filename)
+function_action_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\F175_actions_2021_05_15.xlsx"
+function_action_sheet = "actions"
 
-# select one sheet
-ws = wb2['actions']
-doDictionary = importDictionary(worksheet=ws)
+function_verify_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\F175_AF_verify_2021_05_15.xlsx"
+function_verify_sheet1 = "verify"
+function_verify_sheet2 = "AF"
+function_verify_sheet3 = "verify_doors"
 
-ws = wb2['verify']
-verifyDictionary = importDictionary(worksheet=ws)
+source_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\2-TC_Build\\TC_AF_HIL_Build_2021_05_13.xlsx"
+source_sheet = "TC_HIL"
+destination_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\3-TC_Run\\TC_AF_HIL_Run_2021_05_13.xlsx"
 
-print(doDictionary)
-for n, key in enumerate(doDictionary):
-    if n == 5:
-        for step in doDictionary[key]['data']:
-            print(step.descr + " // " + step.pre + " // " + step.act + " // " + step.pre)
-            pass
+# " Carica i file delle funzioni, foglio per foglio"
+wb2 = load_workbook(function_action_filename)
+ws = wb2[function_action_sheet]
 
-exit()
-source_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\TC_AF\\2-TC_Build\\TC_AF_HIL_Build_2021_05_13.xlsx"
-destination_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\TC_AF\\3-TC_Run\\TC_AF_HIL_Run_2021_05_13.xlsx"
+functionDictionary = {}
+importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="action")
 
+wb2 = load_workbook(function_verify_filename)
+ws = wb2[function_verify_sheet1]
+importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+ws = wb2[function_verify_sheet2]
+importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+ws = wb2[function_verify_sheet3]
+importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+
+
+# ws = wb2['verify']
+# verifyDictionary = importDictionary(worksheet=ws)
 wbStart = load_workbook(source_filename)
 wbStart.save(filename=destination_filename)
 wbEnd = load_workbook(destination_filename)
-wsStart = wbStart['TC_HIL']
-wsEnd = wbEnd['test']
+wsStart = wbStart[source_sheet]
+wsEnd = wbEnd[source_sheet]
 
-for colNum, cell in enumerate(wsEnd[1], start=1):
-    rangeToLookForSubstitution = "J:L"
-    if cell.value == "PRECONDITIONS":
-        print("INSERIRE UNA TONNELLATA DI CONTROLLI CHE IL FILE SIA CORRETTO")
-        print("precondition in colonna ", colNum, " lettera ", get_column_letter(colNum))
-        substituteExpressionsByRows(wsheetStart=wsStart,
-                                    wsheetEnd=wsEnd,
-                                    startCol='J',
-                                    endCol='L',
-                                    substitutionDictionary=doDictionary)
-        pass
-    elif cell.value == "ACTIONS":
-        pass
-    elif cell.value == "EXPECTED RESULT":
-        pass
-wsEnd['A3'] = "sadsdsafsdasfa"
+findExpressions(worksheetStart=wsStart,
+                substitutionDictionary=functionDictionary)
+
+substituteExpressionsByRows(worksheetStart=wsStart,
+                            worksheetEnd=wsEnd,
+                            substitutionDictionary=functionDictionary)
+
+# " Salva"
 wbEnd.save(filename=destination_filename)
-
-# def extractFunctionName(worksheet, colName='A'):
-#     outputDictionary = {}
-#     lastFunctionName = ""
-#     for rowNum, cell in enumerate(worksheet['A'], start=1):
-#         if rowNum == 1:
-#             continue
-#         if cell.value[0] == "=":
-#             continue
-#         if cell.value not in outputDictionary:
-#             outputDictionary[cell.value] = {'startRow': rowNum, 'endRow': 1, 'data': []}
-#             if lastFunctionName != "":
-#                 outputDictionary[lastFunctionName]['endRow'] = rowNum - 1
-#             lastFunctionName = cell.value
-#         else:
-#             print("Error - duplicated values found")
-#             exit()
-#     outputDictionary[lastFunctionName]['endRow'] = rowNum
-#     return outputDictionary
-# wb = Workbook()
-#
-##ws1 = wb.active
-# ws1.title = "test"
-# for row in range(1, 40):
-#    ws1.append(range(600))
-# ws2 = wb.create_sheet(title="Pi")
