@@ -20,11 +20,14 @@ singleTestStep = namedtuple('singleTestStep', ['descr', 'act', 'exp'])
 
 
 def importDictionary(worksheet, functionDictionary, dictionaryType):
-    extractFunctionName(worksheet=worksheet, functionDictionary=functionDictionary, dictionaryType=dictionaryType)
+    returnValue = extractFunctionName(worksheet=worksheet, functionDictionary=functionDictionary,
+                                      dictionaryType=dictionaryType)
+    return returnValue
     # extractFunctionData(worksheet=worksheet, functionDictionary=functionDictionary, )
 
 
 def extractFunctionName(worksheet, functionDictionary, dictionaryType, colName='A'):
+    returnValue = 0
     columnDescriptionLetter, columnActionLetter, columnExpectedResLetter = getColumnPosition(worksheet, dictionaryType)
 
     functionName = ""
@@ -68,9 +71,11 @@ def extractFunctionName(worksheet, functionDictionary, dictionaryType, colName='
                     functionDictionary[functionName]['data'].append(s)
 
             else:
-                print("MINOR - Wrong value type found in function file at row num " + str(rowNum) + "and col A")
+                print("MINOR - Wrong value type found in function file at row num " + str(rowNum) + " and col A")
+                returnValue = 1
                 continue
     functionDictionary[functionName]['endRow'] = rowNum
+    return returnValue
 
 
 def extractFunctionData(worksheet, functionDictionary, dictionaryType):

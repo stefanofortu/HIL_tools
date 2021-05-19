@@ -13,24 +13,34 @@ function_verify_sheet2 = "AF"
 function_verify_sheet3 = "verify_doors"
 
 source_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\2-TC_Build\\TC_AF_HIL_Build_2021_05_13.xlsx"
-source_sheet = "TC_HIL"
+source_sheet = "TC_HIL_EU"
 destination_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\3-TC_Run\\TC_AF_HIL_Run_2021_05_13.xlsx"
 
 # " Carica i file delle funzioni, foglio per foglio"
+functionDictionary = {}
+
 wb2 = load_workbook(function_action_filename)
 ws = wb2[function_action_sheet]
 
-functionDictionary = {}
-importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="action")
+res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="action")
+if res == 1:
+    print("MINOR: Error found in " + function_action_filename + ",sheet : " + function_action_sheet)
 
-wb2 = load_workbook(function_verify_filename)
-ws = wb2[function_verify_sheet1]
-importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-ws = wb2[function_verify_sheet2]
-importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-ws = wb2[function_verify_sheet3]
-importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-
+# wb2 = load_workbook(function_verify_filename)
+# ws = wb2[function_verify_sheet1]
+# res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+# if res == 1:
+#     print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet1)
+#
+# ws = wb2[function_verify_sheet2]
+# res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+# if res == 1:
+#     print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet2)
+#
+# ws = wb2[function_verify_sheet3]
+# res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
+# if res == 1:
+#     print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet3)
 
 # ws = wb2['verify']
 # verifyDictionary = importDictionary(worksheet=ws)
@@ -43,9 +53,10 @@ wsEnd = wbEnd[source_sheet]
 findExpressions(worksheetStart=wsStart,
                 substitutionDictionary=functionDictionary)
 
+print("dizionario acquisito")
 substituteExpressionsByRows(worksheetStart=wsStart,
                             worksheetEnd=wsEnd,
                             substitutionDictionary=functionDictionary)
-
+print("sostituzione fatta")
 # " Salva"
 wbEnd.save(filename=destination_filename)

@@ -48,6 +48,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Border, Side, PatternFill, Font, GradientFill, Alignment
 from copy import copy
 
+
 def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictionary):
     columnDescriptionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['stepDescr_header'])
     columnPreconditionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['precondition_header'])
@@ -57,8 +58,11 @@ def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictio
     # startColIndex = column_index_from_string(startCol)
     # endColIndex = column_index_from_string(endCol)
     rowNumEnd = 0
+    c = 0
     for row in worksheetStart.iter_rows():
         rowNumEnd += 1
+        print(c)
+        c += 1
         for colNum, cell in enumerate(row, start=1):
             if isinstance(cell.value, str) and len(cell.value) > 2:
                 # print(wsheetEnd.cell(row=rowNumEnd, column=colNum + startColIndex).value)
@@ -76,9 +80,9 @@ def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictio
                             worksheetEnd.cell(row=rowNumEnd, column=colNum, value=t.act)
                             # riporto il valore di "expected res" nella colonna degli expected results
                             worksheetEnd.cell(row=rowNumEnd, column=columnExpectedResIndex, value=t.exp)
-                            if cell.has_style:
-                                worksheetEnd[get_column_letter(columnExpectedResIndex)+str(rowNumEnd)].fill = \
-                                    copy(cell.fill)#PatternFill("solid", fgColor="DDDDDD")
+                            # if cell.has_style:
+                            #    worksheetEnd[get_column_letter(columnExpectedResIndex)+str(rowNumEnd)].fill = \
+                            #        copy(cell.fill)
 
                             rowNumEnd += 1
                         rowNumEnd -= 1  # COMPENSAZIONE
