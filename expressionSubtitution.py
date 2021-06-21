@@ -1,6 +1,6 @@
 from openpyxl.utils import column_index_from_string
 from utils.fileTemplateConfiguration import file_TC_BUILD_Column
-from utils.excelUtils import getColumnIndexFromString
+from utils.excelUtils import getColumnIndexFromString, getColumnLetterFromString
 
 
 def substituteExpressions(wsheetStart, wsheetEnd, startCol, endCol, substitutionDictionary):
@@ -68,11 +68,10 @@ def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictio
                 # print(wsheetEnd.cell(row=rowNumEnd, column=colNum + startColIndex).value)
                 if "()" in cell.value:
                     if cell.value in substitutionDictionary:
-                        f = cell.fill
                         rowsSize = substitutionDictionary[cell.value]['endRow'] - \
                                    substitutionDictionary[cell.value]['startRow'] + 1
                         worksheetEnd.delete_rows(rowNumEnd)
-                        worksheetEnd.insert_rows(rowNumEnd, amount=rowsSize)
+                        # worksheetEnd.insert_rows(rowNumEnd, amount=rowsSize)
                         for dataNum, t in enumerate(substitutionDictionary[cell.value]['data']):
                             # riporto il valore di "step" in
                             worksheetEnd.cell(row=rowNumEnd, column=columnDescriptionIndex, value=t.descr)
@@ -80,10 +79,13 @@ def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictio
                             worksheetEnd.cell(row=rowNumEnd, column=colNum, value=t.act)
                             # riporto il valore di "expected res" nella colonna degli expected results
                             worksheetEnd.cell(row=rowNumEnd, column=columnExpectedResIndex, value=t.exp)
-                            # if cell.has_style:
-                            #    worksheetEnd[get_column_letter(columnExpectedResIndex)+str(rowNumEnd)].fill = \
-                            #        copy(cell.fill)
-
+                            if cell.has_style:
+                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].fill = copy(
+                                    cell.fill)
+                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].border = copy(
+                                    cell.border)
+                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].font = copy(
+                                    cell.font)
                             rowNumEnd += 1
                         rowNumEnd -= 1  # COMPENSAZIONE
 
@@ -95,3 +97,73 @@ def findExpressions(worksheetStart, substitutionDictionary):
                 if "()" in cell:
                     if cell not in substitutionDictionary:
                         print("function " + cell + " not found in dictionary")
+
+
+def substituteExpressionsByRowsV2(worksheetStart, worksheetEnd, substitutionDictionary):
+    columnDescriptionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['stepDescr_header'])
+    columnPreconditionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['precondition_header'])
+    columnActionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['action_header'])
+    columnExpectedResIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['expected_header'])
+
+    columnDescriptionLetter = getColumnLetterFromString(worksheetStart, file_TC_BUILD_Column['stepDescr_header'])
+    columnPreconditionLetter = getColumnLetterFromString(worksheetStart, file_TC_BUILD_Column['precondition_header'])
+    columnActionLetter = getColumnLetterFromString(worksheetStart, file_TC_BUILD_Column['action_header'])
+    columnExpectedResLetter = getColumnLetterFromString(worksheetStart, file_TC_BUILD_Column['expected_header'])
+
+    # startColIndex = column_index_from_string(startCol)
+    # endColIndex = column_index_from_string(endCol)
+    c = 0
+    translation = worksheetStart.max_row + 15
+    rowNumEnd = translation
+    rowsAdded = 0
+    for rowNumStart, row in enumerate(worksheetStart.iter_rows(), start=1):
+        #print(c)
+        #c += 1
+        foundStringToSubstitute = False
+        for colNum, cell in enumerate(row, start=1):
+            if isinstance(cell.value, str):
+                # print(wsheetEnd.cell(row=rowNumEnd, column=colNum + startColIndex).value)
+                if len(cell.value) > 2:
+                    if "()" in cell.value and cell.value in substitutionDictionary:
+                        foundStringToSubstitute = True
+
+                        # worksheetEnd[rowNumEnd] = copy(worksheetStart[rowNumEnd])
+
+                        # worksheetEnd[get_column_letter(colNum) + str(rowNumEnd)].value = cell.value #copy(cell)
+                        # worksheetEnd.cell(row=rowNumEnd, column=colNum, value=cell.value)
+                        for dataNum, t in enumerate(substitutionDictionary[cell.value]['data']):
+                            # riporto il valore di "step" in
+                            newRowPos = rowNumStart + translation + rowsAdded + dataNum
+                            worksheetEnd.cell(row=newRowPos, column=columnDescriptionIndex, value=t.descr)
+                            # riporto il valore dell'azione/risultato atteso" nella colonna corrente
+                            worksheetEnd.cell(row=newRowPos, column=colNum, value=t.act)
+                            # riporto il valore di "expected res" nella colonna degli expected results
+                            worksheetEnd.cell(row=newRowPos, column=columnExpectedResIndex, value=t.exp)
+                            if cell.has_style:
+                                worksheetEnd[columnDescriptionLetter + str(newRowPos)].fill = copy(cell.fill)
+                                worksheetEnd[columnDescriptionLetter + str(newRowPos)].border = copy(cell.border)
+                                worksheetEnd[columnDescriptionLetter + str(newRowPos)].font = copy(cell.font)
+                                worksheetEnd[columnPreconditionLetter + str(newRowPos)].fill = copy(cell.fill)
+                                worksheetEnd[columnPreconditionLetter + str(newRowPos)].border = copy(cell.border)
+                                worksheetEnd[columnPreconditionLetter + str(newRowPos)].font = copy(cell.font)
+                                worksheetEnd[columnActionLetter + str(newRowPos)].fill = copy(cell.fill)
+                                worksheetEnd[columnActionLetter + str(newRowPos)].border = copy(cell.border)
+                                worksheetEnd[columnActionLetter + str(newRowPos)].font = copy(cell.font)
+                                worksheetEnd[columnExpectedResLetter + str(newRowPos)].fill = copy(cell.fill)
+                                worksheetEnd[columnExpectedResLetter + str(newRowPos)].border = copy(cell.border)
+                                worksheetEnd[columnExpectedResLetter + str(newRowPos)].font = copy(cell.font)
+
+                        rowsAdded += substitutionDictionary[cell.value]['endRow'] - \
+                                     substitutionDictionary[cell.value]['startRow']
+
+                            # worksheetEnd[get_column_letter(colNum) + str(rowNumEnd)].border = copy(cell.border)
+                            # worksheetEnd[get_column_letter(colNum) + str(rowNumEnd)].font = copy(cell.font)
+                            # worksheetEnd[columnExpectedResLetter + str(rowNumEnd)].fill = copy(cell.fill)
+                            #    rowNumEnd += 1
+                            #     rowNumEnd -= 1  # COMPENSAZIONE
+
+        if not foundStringToSubstitute:
+            worksheetEnd.move_range("A" + str(rowNumStart) + ":AA" + str(rowNumStart),
+                                    rows=translation + rowsAdded, cols=0)
+
+    worksheetEnd.delete_rows(1, amount=translation)
