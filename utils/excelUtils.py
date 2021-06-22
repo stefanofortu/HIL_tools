@@ -1,4 +1,3 @@
-from openpyxl.utils import get_column_letter, column_index_from_string
 from openpyxl.utils import get_column_letter
 
 
@@ -7,7 +6,8 @@ def getColumnLetterFromString(worksheet, columnName):
         for colNum, cell in enumerate(row, start=1):
             if cell == columnName:
                 return get_column_letter(colNum)
-    return ""
+    print("Column " + columnName + " not found")
+    raise ValueError
 
 
 def getColumnIndexFromString(worksheet, columnName):
@@ -15,4 +15,5 @@ def getColumnIndexFromString(worksheet, columnName):
         for colNum, cell in enumerate(row, start=1):
             if cell == columnName:
                 return colNum
-    return ""
+    print("Column " + columnName + " not found")
+    raise ValueError

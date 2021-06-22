@@ -1,5 +1,6 @@
 from collections import namedtuple
 from utils.excelUtils import getColumnLetterFromString
+
 from utils.fileTemplateConfiguration import file_Tools_Actions_Column, file_Tools_Verify_Column
 from utils.DebugPrint import debugPrint
 
@@ -12,21 +13,25 @@ from utils.DebugPrint import debugPrint
 #       endRow : intero - fine della riga in cui si trova
 #       data : array di tuple:
 #           - ogni elemento dell'array è una riga
-#           - ogni elemento della tupla è descrizione, 'act', 'exp']
+#           - ogni elemento della tupla è 'description', 'act', 'exp']
 #
 # }
 
 singleTestStep = namedtuple('singleTestStep', ['descr', 'act', 'exp'])
 
 
+
 def importDictionary(worksheet, functionDictionary, dictionaryType):
     returnValue = extractFunctionName(worksheet=worksheet, functionDictionary=functionDictionary,
                                       dictionaryType=dictionaryType)
+
     return returnValue
     # extractFunctionData(worksheet=worksheet, functionDictionary=functionDictionary, )
 
 
 def extractFunctionName(worksheet, functionDictionary, dictionaryType, colName='A'):
+
+
     returnValue = 0
     columnDescriptionLetter, columnActionLetter, columnExpectedResLetter = getColumnPosition(worksheet, dictionaryType)
 
