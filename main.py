@@ -1,10 +1,8 @@
-from openpyxl import Workbook
-from importDictionary import importDictionary
-from importDictionaryV2 import importDictionaryV2
+from oldFiles.importDictionary_Old import importDictionary
+from importDictionary import importDictionaryV2
 from openpyxl import load_workbook
-from openpyxl.utils import get_column_letter, column_index_from_string
-from expressionSubtitution import substituteExpressionsByRows, findExpressions, substituteExpressionsByRowsV2
-from utils.verifyTemplates import checkBuildFile, checkRunFile, checkActionFile
+from expressionSubtitution import findExpressions, substituteExpressionsByRowsV2
+from utils.verifyTemplates import checkBuildFile, checkActionFile
 
 function_action_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\F175_actions_2021_05_15.xlsx"
 function_action_sheet = "actions"
