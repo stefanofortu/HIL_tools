@@ -42,15 +42,3 @@ file_Tools_VerifyNew_Column = dict(fieldType_header="fieldType",
                                    stepDescr_header="STEP DESCRIPTION",
                                    precondition_header="PRECONDITIONS/ACTION",
                                    expected_header="EXPECTED RESULTS")
-
-
-def format_check_TC_Manual():
-    return True
-
-
-def format_check_TC_Build():
-    return True
-
-
-def format_check_TC_Run():
-    return True

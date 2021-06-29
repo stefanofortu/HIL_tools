@@ -1,80 +1,47 @@
-from oldFiles.importDictionary_Old import importDictionary
 from importDictionary import importDictionaryV2
-from openpyxl import load_workbook
-from expressionSubtitution import findExpressions, substituteExpressionsByRowsV2
-from utils.verifyTemplates import checkBuildFile, checkActionFile
+from expressionSubtitution import substituteFunctions
+from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile
+from stepIDFiller import fillStepIDCounter
 
-function_action_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\F175_actions_2021_05_15.xlsx"
-function_action_sheet = "actions"
+function_verify_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\Documentazione\\3.Tools\\F175_AF_verify_2021_06_26.xlsx"
+function_verify_sheetName = "verify"
 
-function_verify_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\F175_AF_verify_2021_05_15.xlsx"
-function_verify_sheet1 = "verify"
-function_verify_sheet2 = "AF"
-function_verify_sheet3 = "verify_doors"
+function_actions_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\Documentazione\\3.Tools\\F175_AF_actions_2021_06_26.xlsx"
+function_actions_sheetName = "actions"
 
-function_verify_New_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\Documentazione\\3.Tools\\NewProposal_Verify.xlsx"
-function_verify_New_sheetName = "verify"
-# source_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\2-TC_Build\\TC_AF_HIL_Build_2021_05_13.xlsx"
-# source_sheet = "TC_HIL_EU"
-# destination_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\3-TC_Run\\TC_AF_HIL_Run_2021_05_13.xlsx"
-
-
-build_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\2-TC_Build\\TC_AF_CheckConf_Build.xlsx"
-source_sheet = "TC_AF_Configuration"
-run_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_1805\\HIL\\TC_AF\\3-TC_Run\\TC_AF_CheckConf_Run.xlsx"
-
-# " Carica i file delle funzioni, foglio per foglio"
-functionDictionary = {}
-
-wb2 = load_workbook(function_action_filename)
-ws = wb2[function_action_sheet]
-
-res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="action")
-if res == 1:
-    print("MINOR: Error found in " + function_action_filename + ",sheet : " + function_action_sheet)
-
-wb2 = load_workbook(function_verify_filename)
-ws = wb2[function_verify_sheet1]
-res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-if res == 1:
-    print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet1)
-
-ws = wb2[function_verify_sheet2]
-res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-if res == 1:
-    print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet2)
-
-ws = wb2[function_verify_sheet3]
-res = importDictionary(worksheet=ws, functionDictionary=functionDictionary, dictionaryType="verify")
-if res == 1:
-    print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet3)
+build_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\TC_AF\\2-TC_Build\\F173_TC_HIL_FirstTest_Build.xlsx"
+source_sheet = "Test case"
+run_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\TC_AF\\3-TC_Run\\F173_TC_HIL_FirstTest_Run.xlsx"
 
 functionDictionary = {}
-wbActionNew = load_workbook(function_verify_New_filename)
-wsActionNew = wbActionNew[function_verify_New_sheetName]
-checkActionFile(worksheetAction=wsActionNew, worksheetActionFileName=function_verify_New_filename)
 
-res = importDictionaryV2(worksheetAction=wsActionNew, functionDictionary=functionDictionary, dictionaryType="verify")
+wsVerify = importFunctionFiles(fileName=function_verify_filename, sheetName=function_verify_sheetName)
+
+res = importDictionaryV2(worksheetAction=wsVerify, functionDictionary=functionDictionary, dictionaryType="verify")
 if res == 1:
-    print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheet3)
+    print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheetName)
 
+wsAction = importFunctionFiles(fileName=function_actions_filename, sheetName=function_actions_sheetName)
 
-wbBuild = load_workbook(build_filename)
-wbBuild.save(filename=run_filename)
-wbRun = load_workbook(run_filename)
-
-wsBuild = wbBuild[source_sheet]
-wsRun = wbRun[source_sheet]
-
-checkBuildFile(worksheetBuild=wsBuild, worksheetBuildFileName=build_filename)
-
-findExpressions(worksheetStart=wsBuild,
-                substitutionDictionary=functionDictionary)
+res = importDictionaryV2(worksheetAction=wsAction, functionDictionary=functionDictionary, dictionaryType="verify")
+if res == 1:
+    print("MINOR: Error found in " + function_actions_filename + ",sheet : " + function_actions_sheetName)
 
 print("dizionario acquisito")
-substituteExpressionsByRowsV2(worksheetStart=wsBuild,
-                              worksheetEnd=wsRun,
-                              substitutionDictionary=functionDictionary)
-print("sostituzione fatta")
+
+
+wbBuild, wsBuild = importBuildFile(fileName=build_filename,
+                          sheetName=source_sheet)
+
+wbRun, wsRun = generateRunFileFromBuildFile(workbookBuild=wbBuild,
+                                            sheetNameBuild=source_sheet,
+                                            run_filename=run_filename)
+
+substituteFunctions(worksheetStart=wsBuild, worksheetEnd=wsRun, substitutionDictionary=functionDictionary)
+
+
+fillStepIDCounter(worksheet=wsRun)
+
+
 # " Salva"
 wbRun.save(filename=run_filename)

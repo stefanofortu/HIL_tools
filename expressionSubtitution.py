@@ -4,47 +4,6 @@ from importDictionary import singleTestStep
 from copy import copy
 from openpyxl.utils import get_column_letter
 
-def substituteExpressionsByRows(worksheetStart, worksheetEnd, substitutionDictionary):
-    columnDescriptionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['stepDescr_header'])
-    columnPreconditionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['precondition_header'])
-    columnActionIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['action_header'])
-    columnExpectedResIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['expected_header'])
-
-    # startColIndex = column_index_from_string(startCol)
-    # endColIndex = column_index_from_string(endCol)
-    rowNumEnd = 0
-    c = 0
-    for row in worksheetStart.iter_rows():
-        rowNumEnd += 1
-        print(c)
-        c += 1
-        for colNum, cell in enumerate(row, start=1):
-            if isinstance(cell.value, str) and len(cell.value) > 2:
-                # print(wsheetEnd.cell(row=rowNumEnd, column=colNum + startColIndex).value)
-                if "()" in cell.value:
-                    if cell.value in substitutionDictionary:
-                        rowsSize = substitutionDictionary[cell.value]['endRow'] - \
-                                   substitutionDictionary[cell.value]['startRow'] + 1
-                        worksheetEnd.delete_rows(rowNumEnd)
-                        # worksheetEnd.insert_rows(rowNumEnd, amount=rowsSize)
-                        for dataNum, t in enumerate(substitutionDictionary[cell.value]['data']):
-                            # riporto il valore di "step" in
-                            worksheetEnd.cell(row=rowNumEnd, column=columnDescriptionIndex, value=t.descr)
-                            # riporto il valore dell'azione/risultato atteso" nella colonna corrente
-                            worksheetEnd.cell(row=rowNumEnd, column=colNum, value=t.act)
-                            # riporto il valore di "expected res" nella colonna degli expected results
-                            worksheetEnd.cell(row=rowNumEnd, column=columnExpectedResIndex, value=t.exp)
-                            if cell.has_style:
-                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].fill = copy(
-                                    cell.fill)
-                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].border = copy(
-                                    cell.border)
-                                worksheetEnd[get_column_letter(columnExpectedResIndex) + str(rowNumEnd)].font = copy(
-                                    cell.font)
-                            rowNumEnd += 1
-                        rowNumEnd -= 1  # COMPENSAZIONE
-
-
 def findExpressions(worksheetStart, substitutionDictionary):
     for rowNumStart, row in enumerate(worksheetStart.iter_rows(values_only=True)):
         for colNum, cell in enumerate(row):
@@ -54,7 +13,9 @@ def findExpressions(worksheetStart, substitutionDictionary):
                         print("function " + cell + " not found in dictionary")
 
 
-def substituteExpressionsByRowsV2(worksheetStart, worksheetEnd, substitutionDictionary):
+def substituteFunctions(worksheetStart, worksheetEnd, substitutionDictionary):
+    findExpressions(worksheetStart=worksheetStart,substitutionDictionary=substitutionDictionary)
+
     columnEnableIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['enable_header'])
     columnTestNIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['testN_header'])
     columnTestIDIndex = getColumnIndexFromString(worksheetStart, file_TC_BUILD_Column['testID_header'])
