@@ -3,4 +3,4 @@ oldfiles/
 __pycache__/
 .idea/
 build/
-installer/
+installer/main
