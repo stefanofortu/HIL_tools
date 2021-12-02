@@ -1,6 +1,6 @@
 from collections import namedtuple
 from utils.excelUtils import getColumnLetterFromString, getColumnIndexFromString
-from utils.fileTemplateConfiguration import file_Tools_VerifyNew_Column
+from utils.fileTemplateConfiguration import file_Tools_Verify_Column
 from utils.DebugPrint import debugPrint
 
 # ############# CREA DIZIONARIO
@@ -13,21 +13,24 @@ from utils.DebugPrint import debugPrint
 #       parameters : array di parametri
 #       data : array di tuple:
 #           - ogni elemento dell'array è una riga
-#           - ogni elemento della tupla è 'description', 'act', 'exp']
+#           - ogni elemento della tupla è 'enable', descrizione', 'precondizione/azione', 'risultato atteso',
+#           'timeStep', 'sampleTime', 'tolerance']
 #
 # }
 
-singleTestStep = namedtuple('singleTestStep', ['descr', 'act', 'exp'])
+singleTestStep = namedtuple('singleTestStep', ['enable', 'descr', 'act', 'exp', 'timeStep', 'sampleTime', 'tolerance'])
 
 
 def importDictionaryV2(worksheetAction, functionDictionary, dictionaryType):
-    fieldType_Col_Index = getColumnIndexFromString(worksheetAction, file_Tools_VerifyNew_Column['fieldType_header'])
-    valueLetter = getColumnLetterFromString(worksheetAction, file_Tools_VerifyNew_Column['value_header'])
-    stepDescriptionLetter = getColumnLetterFromString(worksheetAction,
-                                                      file_Tools_VerifyNew_Column['stepDescr_header'])
-    preconditionLetter = getColumnLetterFromString(worksheetAction,
-                                                   file_Tools_VerifyNew_Column['precondition_header'])
-    expectedLetter = getColumnLetterFromString(worksheetAction, file_Tools_VerifyNew_Column['expected_header'])
+    fieldType_Col_Index = getColumnIndexFromString(worksheetAction, file_Tools_Verify_Column['fieldType_header'])
+    valueLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['value_header'])
+    enableLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['enable_header'])
+    stepDescriptionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['stepDescr_header'])
+    preconditionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['precondition_header'])
+    expectedLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['expected_header'])
+    timeStepLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['timeStep_header'])
+    sampleTimeLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['sampleTime_header'])
+    toleranceLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['tolerance_header'])
 
     functionName = ""
     for col in worksheetAction.iter_cols(min_col=fieldType_Col_Index,
@@ -41,9 +44,13 @@ def importDictionaryV2(worksheetAction, functionDictionary, dictionaryType):
                     functionDictionary[functionName] = {'startRow': rowNum, 'endRow': rowNum,
                                                         'parameters': [], 'data': []}
             elif rowValue == "<step>":
-                s = singleTestStep(worksheetAction[stepDescriptionLetter + str(rowNum)].value,
+                s = singleTestStep(worksheetAction[enableLetter + str(rowNum)].value,
+                                   worksheetAction[stepDescriptionLetter + str(rowNum)].value,
                                    worksheetAction[preconditionLetter + str(rowNum)].value,
-                                   worksheetAction[expectedLetter + str(rowNum)].value)
+                                   worksheetAction[expectedLetter + str(rowNum)].value,
+                                   worksheetAction[timeStepLetter + str(rowNum)].value,
+                                   worksheetAction[sampleTimeLetter + str(rowNum)].value,
+                                   worksheetAction[toleranceLetter + str(rowNum)].value)
                 if functionName != "":
                     functionDictionary[functionName]['endRow'] = rowNum
                     functionDictionary[functionName]['data'].append(s)
@@ -53,8 +60,9 @@ def importDictionaryV2(worksheetAction, functionDictionary, dictionaryType):
                     functionDictionary[functionName]['parameters'].append(parameterName)
             else:
                 print(rowNum)
+                print(worksheetAction)
+                return 1
                 raise KeyError
-    print(functionDictionary)
 
     # worksheetEnd[worksheetAction + str(newRowPos)].value
     # s = singleTestStep(worksheetAction[columnDescriptionLetter + str(rowNum)].value,

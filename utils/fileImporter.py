@@ -7,6 +7,8 @@ def importFunctionFiles(fileName, sheetName):
     wsFunctions = wbFunctions[sheetName]
     checkActionFile(worksheetAction=wsFunctions, worksheetActionFileName=fileName)
     ## migliorare la gestione degli errori con python - try and catch
+
+    print(wbFunctions.sheetnames)
     return wsFunctions
 
 
