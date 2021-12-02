@@ -1,0 +1,15 @@
+{"root":
+	{
+		"filesSubstitution":{
+		"filepath": "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175_AF_substitutions_2021_11_23.xlsx",
+		"sheetNames" : ["actions", "doors", "networks"]
+		},
+		"file_TC_Build": {
+		"filepath": "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build.xlsx",
+		"sheetName": "Sleep"
+		},
+		"file_TC_Run": {
+			"filepath" : "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\3-TC_Run\\F175_TC_HIL_Integration_Run_20211126.xlsx"
+		}
+	}
+}

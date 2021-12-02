@@ -1,0 +1,15 @@
+{"root": 
+	{"filesSubstitution": {
+		"filepath": "stackabuse.com",
+		"sheetsName" : ["Scott","Larry","Tim"]
+		},
+	"file_TC_Build": {
+		"filepath": "stackabuse.com",
+		"sheetName": "Scott2"
+		},
+			"file_TC_Build": {
+		"filepath": "stackabuse.com",
+		"sheetName": "Scott2"
+		}
+	}
+}
