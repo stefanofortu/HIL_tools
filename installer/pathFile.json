@@ -1,0 +1,15 @@
+{"root":
+	{
+		"filesSubstitution":{
+		"filepath": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_AF_functions.xlsx",
+		"sheetNames" : ["actions", "doors", "networks"]
+		},
+		"file_TC_Build": {
+		"filepath": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_TC_HIL_Build_Sleep.xlsx",
+		"sheetName": "Sleep"
+		},
+		"file_TC_Run": {
+			"filepath" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_TC_HIL_Run_Sleep.xlsx"
+		}
+	}
+}
