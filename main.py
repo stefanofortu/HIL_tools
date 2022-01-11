@@ -1,6 +1,6 @@
 from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
 from importDictionary import importDictionaryV2
-from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn
+from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
 from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile
 import sys
 import json
@@ -53,7 +53,7 @@ for verifySheet in function_verify_sheetName:
     res = importDictionaryV2(worksheetAction=wsVerify, functionDictionary=functionDictionary, dictionaryType="verify")
     if res == 1:
         print("MINOR: Error found in " + function_verify_filename + ",sheet : " + verifySheet)
-        exit()
+        sys.exit()
 
 
     # wsVerify2 = importFunctionFiles(fileName=function_verify_filename, sheetName=function_verify_sheetName[1])
@@ -92,12 +92,19 @@ print("dizionario acquisito")
 wbBuild, wsBuild = importBuildFile(fileName=build_filename,
                                    sheetName=source_sheet)
 
+print("import build file")
 
 wbRun, wsRun = generateRunFileFromBuildFile(workbookBuild=wbBuild,
                                             sheetNameBuild=source_sheet,
                                             run_filename=run_filename)
+print("saved RUN file")
 
-substituteFunctions(swStart=wsBuild, wsEnd=wsRun, substitutionDictionary=functionDictionary)
+findExpressions(wsStart=wsBuild, substitutionDictionary=functionDictionary)
+print("find expressions done")
+
+substituteFunctions(swStart=wsBuild, wsEnd=wsRun, substitutionDictionary=functionDictionary, copyStyle=True)
+
+print("substitution done")
 
 # disableSequences(worksheet=wsRun)
 removeTestTypeColumn(worksheet=wsRun)
@@ -105,7 +112,11 @@ fillTestNColumn(worksheet=wsRun)
 fillEnableColumn(worksheet=wsRun)
 fillStepIDCounter(worksheet=wsRun)
 
+print("other operations")
+
 # " Salva"
 wbRun.save(filename=run_filename)
+
+print("file saved")
 
 sys.exit(0)

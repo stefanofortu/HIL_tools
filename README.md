@@ -1,10 +1,5 @@
 # HIL converter
 
-<!---
-[![Python](https://img.shields.io/pypi/pyversions/tensorflow.svg?style=plastic)](https://badge.fury.io/py/tensorflow)
-[![PyPI](https://badge.fury.io/py/tensorflow.svg)](https://badge.fury.io/py/tensorflow)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4724125.svg)](https://doi.org/10.5281/zenodo.4724125)
--->
 ## Documentation
 
 **Basic concepts**
@@ -25,13 +20,10 @@
 9.  Fill Test Enable column
 10. Fill Step ID Counter
 
-## Run
-
-
-## Install
+## Installation and Run
 
 No installation required.
-Download main.exe from installer/ folder, copy the 'filepath.json' file next to it and run it.
+Download TC_tool.exe from installer/ folder, copy the 'filepath.json' file next to it and run it.
 
 ## Release History
 

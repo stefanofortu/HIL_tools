@@ -2,5 +2,4 @@ venv/
 oldfiles/
 __pycache__/
 .idea/
-build/
-installer/main
+installer/build
