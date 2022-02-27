@@ -182,7 +182,7 @@ def createFunction(functionParsed, substitutionDictionary):
             print(functionParsedName)
             raise ValueError
     else:
-        print(functionParsedName + "not found")
+        print(functionParsedName + " not found")
         raise KeyError
     return substitutedFunction
 

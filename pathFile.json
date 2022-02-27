@@ -5,11 +5,11 @@
 		"sheetNames" : ["key", "doors", "networks"]
 		},
 		"file_TC_Build": {
-		"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build.xlsx",
-		"sheetName": "FSM-trigger+Stop"
+		"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
+		"sheetName": "Test case"
 		},
 		"file_TC_Run": {
-			"filepath" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_AF_FSM_trigger_Stop.xlsx"
+			"filepath" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
 		}
 	}
 }
