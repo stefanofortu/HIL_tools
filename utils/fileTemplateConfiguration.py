@@ -1,5 +1,8 @@
 file_TC_MANUAL_Sheet = [""]
-file_TC_MANUAL_Column = ["TEST ID", "PRECONDITIONS", "ACTIONS", "EXPECTED RESULTS"]
+file_TC_MANUAL_Column = dict(testID_header="TEST ID",
+                            precondition_header="PRECONDITIONS",
+                            action_header="ACTIONS",
+                            expected_header="EXPECTED RESULTS")
 
 file_TC_BUILD_Sheet = [""]
 file_TC_BUILD_Column = dict(enable_header="ENABLE",

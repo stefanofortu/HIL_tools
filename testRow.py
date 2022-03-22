@@ -63,21 +63,21 @@ if __name__ == '__main__':
     formatFiles('testOUT.xlsx')
     createTestOutput(tcInputFilename='testOUT.xlsx', tcOutputFilename='testOUT2.xlsx', modification=False)
 
-exit()
-# cellvalue = stringTC
-# # Split characters
-# splitvalue = cellvalue.split('\n')
-# tmp_array = []
-# for row in splitvalue:
-#     if row != "":
-#         if '1' in row:
-#             tmp_array.append(red)
-#         tmp_array.append(row + "\n")
-#
-# print(tmp_array)
-# # Write in rich text
-# # optsheet.write_rich_string('A1', red, splitvalue[0], splitvalue[1])
-# optsheet.write_rich_string('A1', *tmp_array)
-#
-# # End
-# optbook.close()
+    exit()
+    # cellvalue = stringTC
+    # Split characters
+    splitvalue = cellvalue.split('\n')
+    tmp_array = []
+    for row in splitvalue:
+        if row != "":
+            if '1' in row:
+                tmp_array.append(red)
+            tmp_array.append(row + "\n")
+
+    print(tmp_array)
+    # Write in rich text
+    # optsheet.write_rich_string('A1', red, splitvalue[0], splitvalue[1])
+    optsheet.write_rich_string('A1', *tmp_array)
+
+    # End
+    optbook.close()

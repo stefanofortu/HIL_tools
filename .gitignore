@@ -3,3 +3,4 @@ oldfiles/
 __pycache__/
 .idea/
 installer/build
+~$*.xlsx
