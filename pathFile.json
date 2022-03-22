@@ -1,15 +1,27 @@
 {"root":
 	{
-		"filesSubstitution":{
-		"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175_AF_substitutions_2022_01_11.xlsx",
-		"sheetNames" : ["key", "doors", "networks"]
+		"programSelected" : "CAN_highlighting",
+		"HIL_substitution": {
+			"filesSubstitution":{
+			"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175_AF_substitutions_2022_01_11.xlsx",
+			"sheetNames" : ["key", "doors", "networks"]
+			},
+			"file_TC_Build": {
+			"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
+			"sheetName": "Test case"
+			},
+			"file_TC_Run": {
+				"filepath" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
+			}
 		},
-		"file_TC_Build": {
-		"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
-		"sheetName": "Test case"
-		},
-		"file_TC_Run": {
-			"filepath" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
+		"CAN_highlighting": {
+			"input_file": {
+				"filepath": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
+				"sheetName": "Test case"
+			},
+			"output_file": {
+				"filepath" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
+			}
 		}
 	}
 }
