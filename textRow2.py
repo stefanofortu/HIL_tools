@@ -50,8 +50,14 @@ class TC_HighLight_Handler:
         raise ValueError
 
     def convert(self):
+        file_name = self.tc_input_file_name.split("\\")[-1]
+        file_extension = file_name.split(".")[-1]
+        if file_extension != "xls_":
+            print("file extension not supported. Please provide a .xls file")
+            exit()
 
         rb = xlrd.open_workbook(self.tc_input_file_name, formatting_info=True)
+
         try:
             r_sheet = rb.sheet_by_name(self.tc_sheet_name)
         except XLRDError:
