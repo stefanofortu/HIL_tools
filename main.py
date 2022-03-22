@@ -1,4 +1,4 @@
-from TC_HighLight_Handler import TC_HighLight_Handler
+from Classes.TC_HighLight_Handler import TC_HighLight_Handler
 from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
 from importDictionary import importDictionaryV2
 from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
