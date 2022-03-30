@@ -10,10 +10,10 @@ from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
 class TC_HighLight_Handler:
-    def __init__(self):
-        self.tc_input_file_name = "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls"
-        self.tc_output_file_name = "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
-        self.tc_sheet_name = "Alarm_F175_Integrazione"
+    def __init__(self, tc_input_file_name, tc_sheet_name, tc_output_file_name):
+        self.tc_input_file_name = tc_input_file_name #"C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls"
+        self.tc_sheet_name = tc_sheet_name #"Alarm_F175_Integrazione"
+        self.tc_output_file_name = tc_output_file_name #"C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
         self.book = None
         self.highlight_formatting = xlwt.easyfont('color_index black, height 0x00C8, bold True')
         self.hide_formatting = xlwt.easyfont('color_index gray25, height 0x0096')
