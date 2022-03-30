@@ -11,9 +11,9 @@ from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 class TC_HighLight_Handler:
     def __init__(self, tc_input_file_name, tc_sheet_name, tc_output_file_name):
-        self.tc_input_file_name = tc_input_file_name #"C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls"
-        self.tc_sheet_name = tc_sheet_name #"Alarm_F175_Integrazione"
-        self.tc_output_file_name = tc_output_file_name #"C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
+        self.tc_input_file_name = tc_input_file_name
+        self.tc_sheet_name = tc_sheet_name
+        self.tc_output_file_name = tc_output_file_name
         self.book = None
         self.highlight_formatting = xlwt.easyfont('color_index black, height 0x00C8, bold True')
         self.hide_formatting = xlwt.easyfont('color_index gray25, height 0x0096')
@@ -22,6 +22,20 @@ class TC_HighLight_Handler:
 
     def create_output_file(self):
         pass
+
+    @staticmethod
+    def parse_json_path_file(json_data):
+        CAN_highlighting_json = json_data['root']['CAN_highlighting']
+        input_TC_file = CAN_highlighting_json['input_file']
+        input_TC_file_path = input_TC_file['file_path']
+        print('filePath for input file :', input_TC_file_path)
+        input_TC_file_sheet_name = input_TC_file['sheet_name']
+        print('filePath for input sheet :', input_TC_file_sheet_name)
+
+        output_TC_file = CAN_highlighting_json['output_file']
+        output_TC_file_path = output_TC_file['file_path']
+        print('filePath for output file :', output_TC_file_path)
+        return input_TC_file_path, input_TC_file_sheet_name, output_TC_file_path
 
     @staticmethod
     def create_general_style():

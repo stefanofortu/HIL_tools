@@ -13,6 +13,27 @@ class HIL_Functions_Handler:
         self.source_sheet = source_sheet
         self.run_filename = run_filename
 
+    @staticmethod
+    def parse_json_path_file(json_data):
+        hil_substitution_json = json_data['root']['HIL_substitution']
+
+        filesSubstitution = hil_substitution_json['filesSubstitution']
+        function_verify_filename = filesSubstitution['file_path']
+        print('filePath for substitution file :', function_verify_filename)
+        function_verify_sheetName = filesSubstitution['sheets_name']
+        for sheet_name in function_verify_sheetName:
+            print('sheets in substitution file :', sheet_name)
+
+        file_TC_Build = hil_substitution_json['file_TC_Build']
+        build_filename = file_TC_Build['file_path']
+        print('filePath for build file :', build_filename)
+        source_sheet = file_TC_Build['sheet_name']
+        print('sheets in build file :', source_sheet)
+
+        file_TC_Run = hil_substitution_json['file_TC_Run']
+        run_file_path = file_TC_Run['file_path']
+        return function_verify_filename, function_verify_sheetName, build_filename, source_sheet, run_file_path
+
     def run(self):
         # function_verify_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175_AF_substitutions_2021_11_23.xlsx"
         # function_verify_sheetName = ["actions", "doors", "networks"]
