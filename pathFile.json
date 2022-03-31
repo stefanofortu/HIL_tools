@@ -25,11 +25,15 @@
 		},
 		"find_replace_multiple_row": {
 			"input_file":{
-			"path": "C:\\Users\\Stefano\\Desktop\\WIP\\TC_SS_ExtendedClimate_v04c.xlsx",
-			"sheet_name" : "ExtClimate"
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_v04c.xlsx",
+				"sheet_name" : "ExtClimate"
+			},
+			"find_replace_file":{
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\Find_Replace_List.xlsx",
+				"sheet_name" : "find_replace_list"
 			},
 			"output_file": {
-				"path": "C:\\Users\\Stefano\\Desktop\\WIP\\TC_SS_ExtendedClimate_v04d.xlsx"
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_v04d_v2.xlsx"
 			},
 			"substitutionList_part1": [
 				{

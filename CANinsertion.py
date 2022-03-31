@@ -46,7 +46,6 @@ def replaceCell(stringList, find_array, replace_array):
 
 
 def execCANinsertion():
-
     try:
         with open('pathFile.json', 'r') as json_file:
             json_file_no_comment = ''.join(line for line in json_file if not line.startswith('#'))
@@ -58,12 +57,18 @@ def execCANinsertion():
 
     find_replace_json = json_data['root']['find_replace_multiple_row']
 
-    #rootPathFile = json.load(find_replace_json)
+    # rootPathFile = json.load(find_replace_json)
     input_file = find_replace_json['input_file']
     input_file_path = input_file['path']
     print('filePath for input file :', input_file_path)
     input_file_sheet = input_file['sheet_name']
     print('sheets in input file :', input_file_sheet)
+
+    find_replace_file = find_replace_json['find_replace_file']
+    find_replace_file_path = find_replace_file['path']
+    print('filePath for find&Replace file :', find_replace_file_path)
+    find_replace_file_sheet = find_replace_file['sheet_name']
+    print('sheets in find&Replace file :', find_replace_file_sheet)
 
     output_file = find_replace_json['output_file']
     output_file_path = output_file['path']
@@ -77,12 +82,28 @@ def execCANinsertion():
     # print('replaceArray for output file :', replaceArray)
     # Closing json file
 
-
     wb_in = load_workbook(input_file_path)
     ws_in = wb_in[input_file_sheet]
 
-    exit()
     print("import input file : DONE")
+
+    wb_find_replace = load_workbook(find_replace_file_path)
+    ws_find_replace = wb_find_replace[find_replace_file_sheet]
+
+    print("open find replace file : DONE")
+    substitution_list_from_excel = []
+    for row in ws_find_replace.iter_rows(min_row=2, min_col=1, max_col=2):
+        single_substitution = {"find": "string", "replace": "string"}
+        for colNum, cell in enumerate(row):
+            if isinstance(cell.value, str):
+                if colNum == 0:
+                    single_substitution["find"] = cell.value.split("\n")
+                elif colNum == 1:
+                    single_substitution["replace"] = cell.value.split("\n")
+        substitution_list_from_excel.append(single_substitution)
+
+    print(substitution_list_from_excel)
+    print("import find replace file : DONE")
 
     wb_in.save(filename=output_file_path)
     wbOut = load_workbook(output_file_path)
@@ -90,11 +111,11 @@ def execCANinsertion():
 
     print("saved Copy of Input file: DONE")
 
-    for substitution in substitution_list:
+    for substitution in substitution_list_from_excel:
         find_array = substitution['find']
         replace_array = substitution['replace']
 
-        for col in wsOut.iter_cols(min_row=1, max_row=1640, min_col=20, max_col=20):
+        for col in wsOut.iter_cols(min_row=1, max_row=100, min_col=18, max_col=20):
             for rowNum, cell in enumerate(col):
                 # tmp_array = []
                 # print(type(cellString))
@@ -127,21 +148,21 @@ def execCANinsertion():
                 cellString = cell.value
                 splitvalue = cellString.split('\n')
                 rowToRemove = []
-                #for i, elem in enumerate(splitvalue):
+                # for i, elem in enumerate(splitvalue):
                 #    print(str(i) + " : " + elem)
-                #print("len :" + str(len(splitvalue)))
+                # print("len :" + str(len(splitvalue)))
                 for i in range(0, len(splitvalue)):
                     if splitvalue[i] == "":
-                        if i < len(splitvalue)-1:
+                        if i < len(splitvalue) - 1:
                             if splitvalue[i + 1] == "":
                                 rowToRemove.append(i)
                         else:
                             rowToRemove.append(i)
                 rowToRemove.reverse()
-                #print(rowToRemove)
+                # print(rowToRemove)
                 for r in rowToRemove:
                     splitvalue.pop(r)
-                #print(splitvalue)
+                # print(splitvalue)
 
                 # newCellValue = groupby(splitvalue)
                 # print(newCellValue)
