@@ -46,36 +46,42 @@ def replaceCell(stringList, find_array, replace_array):
 
 
 def execCANinsertion():
+
     try:
-        # Opening JSON file
-        f = open('pathFile_CANinsertion.json')
+        with open('pathFile.json', 'r') as json_file:
+            json_file_no_comment = ''.join(line for line in json_file if not line.startswith('#'))
+            json_data = json.loads(json_file_no_comment)
+
     except FileNotFoundError:
-        print('File pathFile_CANinsertion.json does not exist')
+        print('File pathFile.json does not exist')
         sys.exit()
 
-    rootPathFile = json.load(f)
-    input_file = rootPathFile['root']['input_file']
+    find_replace_json = json_data['root']['find_replace_multiple_row']
+
+    #rootPathFile = json.load(find_replace_json)
+    input_file = find_replace_json['input_file']
     input_file_path = input_file['path']
     print('filePath for input file :', input_file_path)
     input_file_sheet = input_file['sheet_name']
     print('sheets in input file :', input_file_sheet)
 
-    output_file = rootPathFile['root']['output_file']
+    output_file = find_replace_json['output_file']
     output_file_path = output_file['path']
     print('filePath for output file :', output_file_path)
 
-    substitution_list = rootPathFile['root']['substitutionList_part3']
+    substitution_list = find_replace_json['substitutionList_part1']
     findArray = substitution_list[0]['find']
     replaceArray = substitution_list[0]['replace']
 
     # print('findArray for output file :', findArray)
     # print('replaceArray for output file :', replaceArray)
     # Closing json file
-    f.close()
+
 
     wb_in = load_workbook(input_file_path)
     ws_in = wb_in[input_file_sheet]
 
+    exit()
     print("import input file : DONE")
 
     wb_in.save(filename=output_file_path)

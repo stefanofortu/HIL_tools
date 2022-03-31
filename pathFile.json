@@ -1,6 +1,5 @@
 {"root":
 	{
-# CIAO
 		"programSelected" : "CAN_highlighting",
 		"HIL_substitution": {
 			"filesSubstitution":{
@@ -15,7 +14,6 @@
 				"file_path" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
 			}
 		},
-# CIAO
 		"CAN_highlighting": {
 			"input_file": {
 				"file_path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls",
@@ -24,6 +22,70 @@
 			"output_file": {
 				"file_path" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
 			}
+		},
+		"find_replace_multiple_row": {
+			"input_file":{
+			"path": "C:\\Users\\Stefano\\Desktop\\WIP\\TC_SS_ExtendedClimate_v04c.xlsx",
+			"sheet_name" : "ExtClimate"
+			},
+			"output_file": {
+				"path": "C:\\Users\\Stefano\\Desktop\\WIP\\TC_SS_ExtendedClimate_v04d.xlsx"
+			},
+			"substitutionList_part1": [
+				{
+					"find": [
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x0 (Not Active)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"],
+					"replace": [
+						"NCL::[BH].SETUP_NCL.DriverExtendedClimate = 0x0 (ReqOFF)",
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x0 (Not Active)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"]
+				},
+				{
+					"find": [
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x1 (Heat_Level1)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					],
+					"replace": [
+						"NCL::[BH].SETUP_NCL.DriverExtendedClimate = 0x4 (ActiveSeatHeating)",
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x1 (Heat_Level1)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					]
+				},
+				{
+					"find": [
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x2 (Heat_Level2)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					],
+					"replace": [
+						"NCL::[BH].SETUP_NCL.DriverExtendedClimate = 0x4 (ActiveSeatHeating)",
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x2 (Heat_Level2)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					]
+				},
+				{
+					"find": [
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x3 (Heat_Level3)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					],
+					"replace": [
+						"NCL::[BH].SETUP_NCL.DriverExtendedClimate = 0x4 (ActiveSeatHeating)",
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x3 (Heat_Level3)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x0 (Not Active)"
+					]
+				},
+				{
+					"find": [
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x0 (Not Active)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x1 (Fan_Level1)"
+					],
+					"replace": [
+						"NCL::[BH].SETUP_NCL.DriverExtendedClimate = 0x5 (ActiveSeatVenting)",
+						"NCL::[BH].STATUS_NCL.NCL_FrontDriverHeating = 0x0 (Not Active)",
+						"NCL::[BH].STATUS_NCL.NCL_DriverFans = 0x1 (Fan_Level1)"
+					]
+				}
+			]
 		}
 	}
 }
