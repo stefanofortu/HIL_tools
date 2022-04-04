@@ -1,11 +1,14 @@
 from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
 from importDictionary import importDictionaryV2
+from utils.excelUtils import getColumnIndexFromString
 from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
 from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile
 import sys
 import json
 from openpyxl import load_workbook
 from itertools import groupby
+
+from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
 def replaceCell(stringList, find_array, replace_array):
@@ -46,6 +49,11 @@ def replaceCell(stringList, find_array, replace_array):
 
 
 def execCANinsertion():
+    """ This is a quick summary line used as a description of the object.
+    quick summary line used as a description of the object
+    quick summary line used as a description of the object
+    quick summary line used as a description of the object
+    """
     try:
         with open('pathFile.json', 'r') as json_file:
             json_file_no_comment = ''.join(line for line in json_file if not line.startswith('#'))
@@ -107,11 +115,16 @@ def execCANinsertion():
 
     print("saved Copy of Input file: DONE")
 
+    columnPreconditionIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['precondition_header'])
+    columnActionIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['action_header'])
+    columnExpectedResIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['expected_header'])
+
     for substitution in substitution_list_from_excel:
         find_array = substitution['find']
         replace_array = substitution['replace']
 
-        for col in wsOut.iter_cols(min_row=1, max_row=100, min_col=18, max_col=20):
+        for col in wsOut.iter_cols(min_row=1, min_col=columnPreconditionIndex,
+                                   max_col=columnExpectedResIndex):
             for rowNum, cell in enumerate(col):
                 # tmp_array = []
                 # print(type(cellString))
