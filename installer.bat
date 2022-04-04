@@ -5,8 +5,8 @@
 @echo off
 
 IF "%1"=="" (
-    ECHO WARNING: Specify the version of the executable as first parameter
+    ECHO WARNING: Specify the version of the executable as first parameter - example: 01_04
 ) ELSE (
 	ECHO Building executable file:
-	venv\Scripts\pyinstaller --distpath installer --onefile --clean --workpath installer/build  --name TC_tool_v%1 --specpath installer/build main.py	
+	venv\Scripts\pyinstaller --distpath installer --onefile --clean --workpath installer/build  --name TC_tool_v%1 --specpath installer/build MainWindows.py
 )
