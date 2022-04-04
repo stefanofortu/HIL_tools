@@ -1,6 +1,5 @@
 {"root":
 	{
-# CIAO
 		"programSelected" : "CAN_highlighting",
 		"HIL_substitution": {
 			"filesSubstitution":{
@@ -15,7 +14,6 @@
 				"file_path" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
 			}
 		},
-# CIAO
 		"CAN_highlighting": {
 			"input_file": {
 				"file_path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls",
@@ -23,6 +21,19 @@
 			},
 			"output_file": {
 				"file_path" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
+			}
+		},
+		"find_replace_multiple_row": {
+			"input_file":{
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_v04c.xlsx",
+				"sheet_name" : "ExtClimate"
+			},
+			"find_replace_file":{
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\Find_Replace_List.xlsx",
+				"sheet_name" : "find_replace_list"
+			},
+			"output_file": {
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_04c_v2.xlsx"
 			}
 		}
 	}

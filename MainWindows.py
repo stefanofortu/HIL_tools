@@ -7,6 +7,7 @@ import json
 
 from Classes.HIL_Function_Handler import HIL_Functions_Handler
 from Classes.TC_HighLight_Handler import TC_HighLight_Handler
+from Classes.TC_Substitution_Handler import TC_Substitution_Handler
 
 
 class TC_Highlight_Widget(QWidget):
@@ -57,7 +58,7 @@ class HIL_Function_Widget(QWidget):
         super().__init__()
         widget_main_layout = QHBoxLayout()
 
-        btn_exec_tc_highlight = QPushButton("Exec substitution")
+        btn_exec_tc_highlight = QPushButton("Exec function")
         btn_exec_tc_highlight.pressed.connect(self.hil_substitution_exec_conversion)
         widget_main_layout.addWidget(btn_exec_tc_highlight)
 
@@ -79,6 +80,7 @@ class HIL_Function_Widget(QWidget):
 
     def hil_substitution_exec_conversion(self):
         self.hil_functions_handler.run()
+
     # tag::button_clicked[]
     def button_clicked(self):
 
@@ -153,9 +155,11 @@ class MainWindow(QMainWindow):
 
         widget_hil_function = HIL_Function_Widget(json_data)
         layout_tc_highlight = TC_Highlight_Widget(json_data)
+        widget_tc_substitution = TC_Substitution_Widget(json_data)
 
         main_layout.addWidget(widget_hil_function)
         main_layout.addWidget(layout_tc_highlight)
+        main_layout.addWidget(widget_tc_substitution)
 
         main_widget.setLayout(main_layout)
         self.setCentralWidget(main_widget)
@@ -164,8 +168,6 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_window = MainWindow()
-    # main_window = TC_Highlight_Widget()
-    # main_window = HIL_Function_Widget()
 
     main_window.show()
     sys.exit(app.exec())
