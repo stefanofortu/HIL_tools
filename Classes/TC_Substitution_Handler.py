@@ -183,26 +183,3 @@ class TC_Substitution_Handler:
         wbOut.save(filename=self.output_file_path)
 
         print("file output saving : DONE")
-
-
-if __name__ == '__main__':
-
-    try:
-        with open('pathFile.json', 'r') as json_file:
-            json_file_no_comment = ''.join(line for line in json_file if not line.startswith('#'))
-            json_data_v = json.loads(json_file_no_comment)
-
-    except FileNotFoundError:
-        print('File pathFile.json does not exist')
-        sys.exit()
-
-    print(json_data_v)
-
-    input_file_path_v, input_file_sheet_v, find_replace_file_path_v, find_replace_file_sheet_v, output_file_path_v = \
-        TC_Substitution_Handler.parse_json_path_file(json_data_v)
-    tc_substitution_handler = TC_Substitution_Handler(input_file_path=input_file_path_v,
-                                                      input_file_sheet=input_file_sheet_v,
-                                                      find_replace_file_path=find_replace_file_path_v,
-                                                      find_replace_file_sheet=find_replace_file_sheet_v,
-                                                      output_file_path=output_file_path_v)
-    tc_substitution_handler.exec_CAN_insertion()
