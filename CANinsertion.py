@@ -74,10 +74,6 @@ def execCANinsertion():
     output_file_path = output_file['path']
     print('filePath for output file :', output_file_path)
 
-    substitution_list = find_replace_json['substitutionList_part1']
-    findArray = substitution_list[0]['find']
-    replaceArray = substitution_list[0]['replace']
-
     # print('findArray for output file :', findArray)
     # print('replaceArray for output file :', replaceArray)
     # Closing json file
