@@ -1,184 +1,27 @@
-from PySide6.QtWidgets import QMainWindow, QPushButton, QMessageBox, QGridLayout, QVBoxLayout, QWidget, QFileDialog, \
-    QHBoxLayout
-from PySide6.QtGui import QColor, QPalette
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFrame, QSplitter
 from PySide6.QtWidgets import QApplication
 import sys
 import json
 
-from Classes.HIL_Function_Handler import HIL_Functions_Handler
-from Classes.TC_HighLight_Handler import TC_HighLight_Handler
-from Classes.TC_Substitution_Handler import TC_Substitution_Handler
+from Classes.HIL_Function_Widget import HIL_Function_Widget
+from Classes.TC_Highlight_Widget import TC_Highlight_Widget
+from Classes.TC_Substitution_Widget import TC_Substitution_Widget
 
 
-class TC_Highlight_Widget(QWidget):
-    def __init__(self, json_data):
+class Separation_Line(QFrame):
+    def __init__(self):
         super().__init__()
-        widget_main_layout = QHBoxLayout()
-
-        btn_exec_tc_highlight = QPushButton("exec TC Highlight")
-        btn_exec_tc_highlight.pressed.connect(self.tc_highlight_exec_conversion)
-        widget_main_layout.addWidget(btn_exec_tc_highlight)
-
-        btn_save_tc_highlight = QPushButton("no sense")
-        btn_save_tc_highlight.pressed.connect(self.button_clicked)
-        widget_main_layout.addWidget(btn_save_tc_highlight)
-
-        self.setLayout(widget_main_layout)
-
-        input_TC_file_path, input_TC_file_sheet_name, output_TC_file_path = TC_HighLight_Handler.parse_json_path_file(
-            json_data)
-        print(input_TC_file_path)
-        self.tc_highlight_handler = TC_HighLight_Handler(tc_input_file_name=input_TC_file_path,
-                                                         tc_sheet_name=input_TC_file_sheet_name,
-                                                         tc_output_file_name=output_TC_file_path)
-        self.tc_highlight_handler.create_output_file()
-
-    def tc_highlight_exec_conversion(self):
-        self.tc_highlight_handler.convert()
-
-    def button_clicked(self):
-
-        button = QMessageBox.critical(
-            self,
-            "Oh dear!",
-            "Told you not to press this.",
-            buttons=QMessageBox.Discard | QMessageBox.NoToAll | QMessageBox.Ignore,
-            defaultButton=QMessageBox.Discard,
-        )
-
-        if button == QMessageBox.Discard:
-            print("Discard!")
-        elif button == QMessageBox.NoToAll:
-            print("No to all!")
-        else:
-            print("Ignore!")
-
-
-class HIL_Function_Widget(QWidget):
-    def __init__(self, json_data):
-        super().__init__()
-        widget_main_layout = QHBoxLayout()
-
-        btn_exec_tc_highlight = QPushButton("Exec function")
-        btn_exec_tc_highlight.pressed.connect(self.hil_substitution_exec_conversion)
-        widget_main_layout.addWidget(btn_exec_tc_highlight)
-
-        btn_save_tc_highlight = QPushButton("no sense")
-        btn_save_tc_highlight.pressed.connect(self.button_clicked)
-        widget_main_layout.addWidget(btn_save_tc_highlight)
-
-        self.setLayout(widget_main_layout)
-
-        function_verify_filename, function_verify_sheetName, build_filename, source_sheet, run_file_path = \
-            HIL_Functions_Handler.parse_json_path_file(json_data)
-
-        self.hil_functions_handler = HIL_Functions_Handler(function_verify_filename=function_verify_filename,
-                                                           function_verify_sheetName=function_verify_sheetName,
-                                                           build_filename=build_filename,
-                                                           source_sheet=source_sheet,
-                                                           run_filename=run_file_path)
-        # hil_functions_handler.run()
-
-    def hil_substitution_exec_conversion(self):
-        self.hil_functions_handler.run()
-
-    # tag::button_clicked[]
-    def button_clicked(self):
-
-        button = QMessageBox.critical(
-            self,
-            "Oh dear!",
-            "Told you not to press this.",
-            buttons=QMessageBox.Discard | QMessageBox.NoToAll | QMessageBox.Ignore,
-            defaultButton=QMessageBox.Discard,
-        )
-
-        if button == QMessageBox.Discard:
-            print("Discard!")
-        elif button == QMessageBox.NoToAll:
-            print("No to all!")
-        else:
-            print("Ignore!")
-
-    def run(self):
-        pass
-
-    # opening SINGLE FILES
-    def openFileNameDialog(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
-                                                  "All Files (*);;Python Files (*.py)", options=options)
-        if fileName:
-            print(fileName)
-
-    # opening MULTIPLES FILES
-    def openFileNamesDialog(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self, "QFileDialog.getOpenFileNames()", "",
-                                                "All Files (*);;Python Files (*.py)", options=options)
-        if files:
-            print(files)
-
-    def saveFileDialog(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "",
-                                                  "All Files (*);;Text Files (*.txt)", options=options)
-        if fileName:
-            print(fileName)
-
-
-class TC_Substitution_Widget(QWidget):
-    def __init__(self, json_data):
-        super().__init__()
-        widget_main_layout = QHBoxLayout()
-
-        btn_exec_tc_substitution = QPushButton("Exec TC substitution")
-        btn_exec_tc_substitution.pressed.connect(self.tc_substitution_exec_conversion)
-        widget_main_layout.addWidget(btn_exec_tc_substitution)
-
-        btn_save_tc_substitution = QPushButton("no sense")
-        btn_save_tc_substitution.pressed.connect(self.button_clicked)
-        widget_main_layout.addWidget(btn_save_tc_substitution)
-
-        self.setLayout(widget_main_layout)
-
-        in_file_path, in_file_sheet, fr_file_path, fr_file_sheet, out_file_path_v = \
-            TC_Substitution_Handler.parse_json_path_file(json_data)
-        self.tc_substitution_handler = TC_Substitution_Handler(input_file_path=in_file_path,
-                                                               input_file_sheet=in_file_sheet,
-                                                               find_replace_file_path=fr_file_path,
-                                                               find_replace_file_sheet=fr_file_sheet,
-                                                               output_file_path=out_file_path_v)
-
-    def tc_substitution_exec_conversion(self):
-        self.tc_substitution_handler.exec_CAN_insertion()
-
-    # tag::button_clicked[]
-    def button_clicked(self):
-
-        button = QMessageBox.critical(
-            self,
-            "Oh dear!",
-            "Told you not to press this.",
-            buttons=QMessageBox.Discard | QMessageBox.NoToAll | QMessageBox.Ignore,
-            defaultButton=QMessageBox.Discard,
-        )
-
-        if button == QMessageBox.Discard:
-            print("Discard!")
-        elif button == QMessageBox.NoToAll:
-            print("No to all!")
-        else:
-            print("Ignore!")
+        self.setFrameShape(QFrame.HLine)
+        self.setMinimumHeight(3)
+        self.setFrameShadow(QFrame.Sunken)
+        self.setStyleSheet('background-color: rgb(255,0,0)')
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("My App")
+        self.setWindowTitle("Ferrari TC tools")
         self.left = 100
         self.top = 100
         self.width = 320
@@ -205,7 +48,9 @@ class MainWindow(QMainWindow):
         widget_tc_substitution = TC_Substitution_Widget(json_data)
 
         main_layout.addWidget(widget_hil_function)
+        main_layout.addWidget(Separation_Line())#QSplitter(Qt.Horizontal))
         main_layout.addWidget(layout_tc_highlight)
+        main_layout.addWidget(Separation_Line())
         main_layout.addWidget(widget_tc_substitution)
 
         main_widget.setLayout(main_layout)

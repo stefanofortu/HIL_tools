@@ -9,6 +9,7 @@ from utils.excelUtils import getColumnIndexFromString
 from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
+
 class TC_HighLight_Handler:
     def __init__(self, tc_input_file_name, tc_sheet_name, tc_output_file_name):
         self.tc_input_file_name = tc_input_file_name
