@@ -50,7 +50,7 @@ class HIL_Functions_Handler:
             res = importDictionaryV2(worksheetAction=wsVerify, functionDictionary=functionDictionary,
                                      dictionaryType="verify")
             if res == 1:
-                print("MINOR: Error found in " + self.function_verify_filename + ",sheet : " + verifySheet)
+                print("MINOR: Error of importDictionary found in " + self.function_verify_filename + ",sheet : " + verifySheet)
                 exit()
 
             # wsVerify2 = importFunctionFiles(fileName=function_verify_filename, sheetName=function_verify_sheetName[1])

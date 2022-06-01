@@ -3,15 +3,15 @@
 		"programSelected" : "CAN_highlighting",
 		"HIL_substitution": {
 			"filesSubstitution":{
-				"file_path": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175_AF_substitutions_2022_01_11.xlsx",
-				"sheets_name" : ["key", "doors", "networks"]
+				"file_path": "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_SS\\TC_HIL\\F175_SS_functions_v01.xlsx",
+				"sheets_name" : ["functions", "actions_on_NAG"]
 			},
 			"file_TC_Build": {
-				"file_path": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
+				"file_path": "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_SS\\TC_HIL\\F175_TC_HIL_SS_Build_v04.xlsx",
 				"sheet_name": "Test case"
 			},
 			"file_TC_Run": {
-				"file_path" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
+				"file_path" : "C:\\Users\\Stefano\\Desktop\\WIP\\HIL_SS\\TC_HIL\\F175_TC_HIL_SS_Run_v04.xlsx"
 			}
 		},
 		"CAN_highlighting": {

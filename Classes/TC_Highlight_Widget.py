@@ -30,7 +30,7 @@ class TC_Highlight_Widget(QWidget):
         input_file_path_label.setAlignment(Qt.AlignLeft)
         input_file_layout.addWidget(input_file_path_label, 1, 0, 1, 8)
         #
-        btn_input_file_selector = QPushButton("Select file")
+        btn_input_file_selector = QPushButton("Upper Child Lock")
         input_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
         ##
         widget_main_layout.addLayout(input_file_layout)
@@ -59,7 +59,7 @@ class TC_Highlight_Widget(QWidget):
         output_file_path_label.setAlignment(Qt.AlignLeft)
         output_file_layout.addWidget(output_file_path_label, 1, 0, 1, 8)
         #
-        btn_input_file_selector = QPushButton("Select file")
+        btn_input_file_selector = QPushButton("Lower Child Lock")
         output_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
         ##
         widget_main_layout.addLayout(output_file_layout)

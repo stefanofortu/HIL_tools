@@ -137,7 +137,7 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary, copyStyle=False)
 
                             rowsAdded += len(substitutedFunction) - 1
         if not foundStringToSubstitute:
-            wsEnd.move_range("A" + str(rowNumStart) + ":AA" + str(rowNumStart),
+            wsEnd.move_range("A" + str(rowNumStart) + ":AB" + str(rowNumStart),
                              rows=translation + rowsAdded, cols=0)
 
     wsEnd.delete_rows(1, amount=translation)
@@ -224,7 +224,11 @@ def removeTestTypeColumn(worksheet):
                         testIDs = testIdToJoin[0]
                     else:
                         for id in testIdToJoin:
-                            testIDs = testIDs + id + ";"
+                            if id is not None:
+                                testIDs = testIDs + id + ";"
+                            else:
+                                print(id, rowNum, columnTestIDIndex)
+                                exit()
                     worksheet.cell(row=rowNum, column=columnTestIDIndex, value=testIDs)
                     worksheet.cell(row=rowNum, column=columnTestNindxex, value=testN)
                     testIdToJoin.clear()
