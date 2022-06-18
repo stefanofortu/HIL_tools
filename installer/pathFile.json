@@ -1,15 +1,40 @@
 {"root":
 	{
-		"filesSubstitution":{
-		"filepath": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_AF_functions.xlsx",
-		"sheetNames" : ["actions", "doors", "networks"]
+		"programSelected" : "CAN_highlighting",
+		"HIL_substitution": {
+			"filesSubstitution":{
+				"file_path": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175_AF_substitutions_2022_01_11.xlsx",
+				"sheets_name" : ["key", "doors", "networks"]
+			},
+			"file_TC_Build": {
+				"file_path": "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build_6_SelfArming.xlsx",
+				"sheet_name": "Test case"
+			},
+			"file_TC_Run": {
+				"file_path" : "C:\\Users\\Stefano\\Desktop\\HIL\\HIL_TC\\3-TC_Run\\F175_TC_HIL_Integration_6_SelfArming.xlsx"
+			}
 		},
-		"file_TC_Build": {
-		"filepath": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_TC_HIL_Build_Sleep.xlsx",
-		"sheetName": "Sleep"
+		"CAN_highlighting": {
+			"input_file": {
+				"file_path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls",
+				"sheet_name": "Alarm_F175_Integrazione"
+			},
+			"output_file": {
+				"file_path" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
+			}
 		},
-		"file_TC_Run": {
-			"filepath" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\installer\\F175_TC_HIL_Run_Sleep.xlsx"
+		"find_replace_multiple_row": {
+			"input_file":{
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_v04c.xlsx",
+				"sheet_name" : "ExtClimate"
+			},
+			"find_replace_file":{
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\Find_Replace_List.xlsx",
+				"sheet_name" : "find_replace_list"
+			},
+			"output_file": {
+				"path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\Find_Replace_Multiple_Rows\\TC_SS_ExtendedClimate_04c_v2.xlsx"
+			}
 		}
 	}
 }

@@ -7,18 +7,20 @@ from copy import copy
 from openpyxl.utils import get_column_letter
 
 
-def findExpressions(worksheetStart, substitutionDictionary):
-    for rowNumStart, row in enumerate(worksheetStart.iter_rows(values_only=True)):
-        for colNum, cell in enumerate(row):
+def findExpressions(wsStart, substitutionDictionary):
+    columnPreconditionIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['precondition_header'])
+    columnExpectedResIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['expected_header'])
+    for row in wsStart.iter_rows(values_only=True,
+                                 min_col=columnPreconditionIndex,
+                                 max_col=columnExpectedResIndex):  #
+        for cell in row:
             if isinstance(cell, str) and len(cell) > 2:
                 if "()" in cell:
                     if cell not in substitutionDictionary:
                         print("function " + cell + " not found in dictionary")
 
 
-def substituteFunctions(swStart, wsEnd, substitutionDictionary):
-    # findExpressions(worksheetStart=swStart, substitutionDictionary=substitutionDictionary)
-
+def substituteFunctions(swStart, wsEnd, substitutionDictionary, copyStyle=False):
     columnEnableIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['enable_header'])
     columnTestNIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['testN_header'])
     columnTestIDIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['testID_header'])
@@ -46,11 +48,10 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
     translation = swStart.max_row + 15
     rowNumEnd = translation
     rowsAdded = 0
-    for rowNumStart, row in enumerate(swStart.iter_rows(), start=1):
-        # print(c)
-        # c += 1
+    for rowNumStart, row in enumerate(swStart.iter_rows(min_col=columnPreconditionIndex,
+                                                        max_col=columnExpectedResIndex), start=1):
         foundStringToSubstitute = False
-        for colNum, cell in enumerate(row, start=1):
+        for colNum, cell in enumerate(row, start=columnPreconditionIndex):
             if isinstance(cell.value, str):
                 # print(wsheetEnd.cell(row=rowNumEnd, column=colNum + startColIndex).value)
                 if len(cell.value) > 2:
@@ -72,27 +73,28 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
 
                                 # riporto il valore di "enable "
                                 wsEnd.cell(row=newRowPos, column=columnEnableIndex, value=t.enable)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnEnableLetter + str(newRowPos)].alignment = Alignment(
                                         horizontal='center')
 
                                 # print(enableCell.value)
                                 # riporto il valore in testN
                                 wsEnd.cell(row=newRowPos, column=columnTestNIndex, value=testNCell.value)
-                                wsEnd[columnTestNLetter + str(newRowPos)].alignment = copy(
-                                    testNCell.alignment)  # Alignment(horizontal='center')
+                                if copyStyle:
+                                    wsEnd[columnTestNLetter + str(newRowPos)].alignment = copy(testNCell.alignment)
+                                # Alignment(horizontal='center')
                                 ## riporto il valore in testID
                                 # worksheetEnd.cell(row=newRowPos, column=columnTestIDIndex, value=testIDCell.value)
 
                                 # riporto il valore della descrizione nella colonna della step description
                                 wsEnd.cell(row=newRowPos, column=columnDescriptionIndex, value=t.descr)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnDescriptionLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnDescriptionLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnDescriptionLetter + str(newRowPos)].font = copy(cell.font)
                                 # riporto il valore dell'azione/risultato atteso" nella colonna corrente
                                 wsEnd.cell(row=newRowPos, column=colNum, value=t.act)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnPreconditionLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnPreconditionLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnPreconditionLetter + str(newRowPos)].font = copy(cell.font)
@@ -101,14 +103,14 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
                                     wsEnd[columnActionLetter + str(newRowPos)].font = copy(cell.font)
                                 # riporto il valore di "expected res" nella colonna degli expected results
                                 wsEnd.cell(row=newRowPos, column=columnExpectedResIndex, value=t.exp)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnExpectedResLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnExpectedResLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnExpectedResLetter + str(newRowPos)].font = copy(cell.font)
 
                                 # riporto il valore di "time step"
                                 wsEnd.cell(row=newRowPos, column=columnTimeStepIndex, value=t.timeStep)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnTimeStepLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnTimeStepLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnTimeStepLetter + str(newRowPos)].font = copy(cell.font)
@@ -117,7 +119,7 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
 
                                 # riporto il valore di "sample time"
                                 wsEnd.cell(row=newRowPos, column=columnSampleTimeIndex, value=t.sampleTime)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnSampleTimeLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnSampleTimeLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnSampleTimeLetter + str(newRowPos)].font = copy(cell.font)
@@ -126,7 +128,7 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
 
                                 # riporto il valore di tolerance nella colonna degli expected results
                                 wsEnd.cell(row=newRowPos, column=columnToleranceIndex, value=t.tolerance)
-                                if cell.has_style:
+                                if cell.has_style and copyStyle:
                                     wsEnd[columnToleranceLetter + str(newRowPos)].fill = copy(cell.fill)
                                     wsEnd[columnToleranceLetter + str(newRowPos)].border = copy(cell.border)
                                     wsEnd[columnToleranceLetter + str(newRowPos)].font = copy(cell.font)
@@ -135,7 +137,7 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary):
 
                             rowsAdded += len(substitutedFunction) - 1
         if not foundStringToSubstitute:
-            wsEnd.move_range("A" + str(rowNumStart) + ":AA" + str(rowNumStart),
+            wsEnd.move_range("A" + str(rowNumStart) + ":AB" + str(rowNumStart),
                              rows=translation + rowsAdded, cols=0)
 
     wsEnd.delete_rows(1, amount=translation)
@@ -180,7 +182,7 @@ def createFunction(functionParsed, substitutionDictionary):
             print(functionParsedName)
             raise ValueError
     else:
-        print(functionParsedName + "not found")
+        print(functionParsedName + " not found")
         raise KeyError
     return substitutedFunction
 
@@ -222,7 +224,11 @@ def removeTestTypeColumn(worksheet):
                         testIDs = testIdToJoin[0]
                     else:
                         for id in testIdToJoin:
-                            testIDs = testIDs + id + ";"
+                            if id is not None:
+                                testIDs = testIDs + id + ";"
+                            else:
+                                print(id, rowNum, columnTestIDIndex)
+                                exit()
                     worksheet.cell(row=rowNum, column=columnTestIDIndex, value=testIDs)
                     worksheet.cell(row=rowNum, column=columnTestNindxex, value=testN)
                     testIdToJoin.clear()
