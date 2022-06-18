@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFrame, QSplitter
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFrame, QSplitter, QTabWidget
 from PySide6.QtWidgets import QApplication
 import sys
 import json
@@ -37,23 +38,26 @@ class MainWindow(QMainWindow):
             print('File pathFile.json does not exist')
             sys.exit()
 
-        print(json_data)
+        # print(json_data)
 
         # definisci il widget principale
         main_widget = QWidget()
-        main_layout = QVBoxLayout()
 
-        widget_hil_function = HIL_Function_Widget(json_data)
-        layout_tc_highlight = TC_Highlight_Widget(json_data)
-        widget_tc_substitution = TC_Substitution_Widget(json_data)
+        hil_function_widget = HIL_Function_Widget(json_data)
+        tc_highlight_widget = TC_Highlight_Widget(json_data)
+        tc_substitution_widget = TC_Substitution_Widget(json_data)
 
-        main_layout.addWidget(widget_hil_function)
-        main_layout.addWidget(Separation_Line())#QSplitter(Qt.Horizontal))
-        main_layout.addWidget(layout_tc_highlight)
-        main_layout.addWidget(Separation_Line())
-        main_layout.addWidget(widget_tc_substitution)
+        self.setCentralWidget(main_widget)
 
-        main_widget.setLayout(main_layout)
+        main_widget = QTabWidget()
+        main_widget.setDocumentMode(True)
+        main_widget.setTabPosition(QTabWidget.North)
+        main_widget.setMovable(False)
+
+        main_widget.addTab(tc_substitution_widget, "TestCase Substitutions")
+        main_widget.addTab(hil_function_widget, "HIL function")
+        main_widget.addTab(tc_highlight_widget, "TestCase Highlight")
+
         self.setCentralWidget(main_widget)
 
 

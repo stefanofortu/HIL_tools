@@ -14,7 +14,7 @@ class TC_Highlight_Widget(QWidget):
         title_label.setFrameStyle(QFrame.Sunken)
         title_label.setAlignment(Qt.AlignCenter)
         title_label.setText("TC Highlighting")
-        title_label.setStyleSheet('background-color: rgb(255,140,0)')
+        title_label.setStyleSheet('background-color: rgb(255,255,0)')
 
         widget_main_layout.addWidget(title_label)
         #################################

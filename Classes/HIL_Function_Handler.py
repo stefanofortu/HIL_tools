@@ -5,8 +5,8 @@ from utils.fileImporter import importFunctionFiles, importBuildFile, generateRun
 
 
 class HIL_Functions_Handler:
-    def __init__(self, function_verify_filename, function_verify_sheetName,
-                 build_filename, source_sheet, run_filename):
+    def __init__(self, function_verify_filename="", function_verify_sheetName="",
+                 build_filename="", source_sheet="", run_filename=""):
         self.function_verify_filename = function_verify_filename
         self.function_verify_sheetName = function_verify_sheetName
         self.build_filename = build_filename

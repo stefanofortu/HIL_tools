@@ -104,9 +104,9 @@ class TC_Substitution_Widget(QWidget):
         exec_row_layout.addWidget(btn_exec_tc_highlight)
         exec_row_layout.addStretch()
         widget_main_layout.addLayout(exec_row_layout)
-        #########
-
+        ###############
         self.setLayout(widget_main_layout)
+        ############### GUI END
 
         self.tc_substitution_handler = TC_Substitution_Handler()
 
