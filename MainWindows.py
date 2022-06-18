@@ -54,9 +54,9 @@ class MainWindow(QMainWindow):
         main_widget.setTabPosition(QTabWidget.North)
         main_widget.setMovable(False)
 
-        main_widget.addTab(tc_substitution_widget, "TestCase Substitutions")
+        main_widget.addTab(tc_substitution_widget, "Test Case Substitutions")
         main_widget.addTab(hil_function_widget, "HIL function")
-        main_widget.addTab(tc_highlight_widget, "TestCase Highlight")
+        main_widget.addTab(tc_highlight_widget, "Test Case Highlight")
 
         self.setCentralWidget(main_widget)
 
