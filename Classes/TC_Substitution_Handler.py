@@ -6,8 +6,8 @@ from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
 class TC_Substitution_Handler:
-    def __init__(self, input_file_path, input_file_sheet, find_replace_file_path,
-                 find_replace_file_sheet, output_file_path):
+    def __init__(self, input_file_path="", input_file_sheet="", find_replace_file_path="",
+                 find_replace_file_sheet="", output_file_path=""):
         self.input_file_path = input_file_path
         self.input_file_sheet = input_file_sheet
         self.find_replace_file_path = find_replace_file_path
