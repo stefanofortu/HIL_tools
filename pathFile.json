@@ -16,11 +16,11 @@
 		},
 		"CAN_highlighting": {
 			"input_file": {
-				"file_path": "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\TC_AF_Rev16_v2.xls",
+				"file_path": ".xls",
 				"sheet_name": "Alarm_F175_Integrazione"
 			},
 			"output_file": {
-				"file_path" : "C:\\Users\\Stefano\\PycharmProjects\\HIL_tools\\examples_files\\CANsubstitution\\test2.xls"
+				"file_path" : ""
 			}
 		},
 		"find_replace_multiple_row": {

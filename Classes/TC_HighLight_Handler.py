@@ -9,9 +9,8 @@ from utils.excelUtils import getColumnIndexFromString
 from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
-
 class TC_HighLight_Handler:
-    def __init__(self, tc_input_file_name, tc_sheet_name, tc_output_file_name):
+    def __init__(self, tc_input_file_name="", tc_sheet_name="", tc_output_file_name=""):
         self.tc_input_file_name = tc_input_file_name
         self.tc_sheet_name = tc_sheet_name
         self.tc_output_file_name = tc_output_file_name
@@ -21,21 +20,18 @@ class TC_HighLight_Handler:
         self.original_formatting = xlwt.easyfont('color_index black, height 0x00C8')
         self.general_style = TC_HighLight_Handler.create_general_style()
 
-    def create_output_file(self):
-        pass
-
     @staticmethod
     def parse_json_path_file(json_data):
         CAN_highlighting_json = json_data['root']['CAN_highlighting']
         input_TC_file = CAN_highlighting_json['input_file']
         input_TC_file_path = input_TC_file['file_path']
-        print('filePath for input file :', input_TC_file_path)
+        # print('filePath for input file :', input_TC_file_path)
         input_TC_file_sheet_name = input_TC_file['sheet_name']
-        print('filePath for input sheet :', input_TC_file_sheet_name)
+        # print('filePath for input sheet :', input_TC_file_sheet_name)
 
         output_TC_file = CAN_highlighting_json['output_file']
         output_TC_file_path = output_TC_file['file_path']
-        print('filePath for output file :', output_TC_file_path)
+        # print('filePath for output file :', output_TC_file_path)
         return input_TC_file_path, input_TC_file_sheet_name, output_TC_file_path
 
     @staticmethod
@@ -77,7 +73,7 @@ class TC_HighLight_Handler:
             r_sheet = rb.sheet_by_name(self.tc_sheet_name)
         except XLRDError:
             print("Sheet " + self.tc_sheet_name + " does not exist")
-            exit()
+            return
 
         # sheetIndex = self.get_sheet_index(rb,self.tc_sheet_name)
         self.book = copy(rb)
