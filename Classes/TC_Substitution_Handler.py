@@ -44,7 +44,7 @@ class TC_Substitution_Handler:
 
         row_num = 0
         while row_num < len(workCell):
-            if row_num < (len(workCell) - len(find_array)):
+            if row_num <= (len(workCell) - len(find_array)):
                 match_counter = 0
                 for find_array_index in range(0, len(find_array)):
                     if workCell[row_num + find_array_index] == find_array[find_array_index]:

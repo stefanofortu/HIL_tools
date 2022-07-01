@@ -129,6 +129,9 @@ class TC_Substitution_Widget(QWidget):
         self.output_file_path_label.setText(out_file_path)
 
     def tc_substitution_exec_conversion(self):
+        self.tc_substitution_handler.input_file_sheet = self.input_sheet_line_edit.text()
+        self.tc_substitution_handler.find_replace_file_sheet = self.fr_sheet_line_edit.text()
+
         self.tc_substitution_handler.exec_CAN_insertion()
 
     def openInputFileDialog(self):
@@ -136,7 +139,7 @@ class TC_Substitution_Widget(QWidget):
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.tc_input_file_name = fileName
+            self.tc_substitution_handler.input_file_path = fileName
             self.input_file_path_label.setText(fileName)
 
     def openFindReplaceFileDialog(self):
@@ -154,5 +157,5 @@ class TC_Substitution_Widget(QWidget):
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.tc_output_file_name = fileName
+            self.tc_substitution_handler.output_file_path = fileName
             self.output_file_path_label.setText(fileName)
