@@ -1,5 +1,5 @@
 from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
-from importDictionary import importDictionaryV2
+from importDictionary import importDictionary
 from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
 from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile
 
@@ -47,47 +47,19 @@ class HIL_Functions_Handler:
             wsVerify = importFunctionFiles(fileName=self.function_verify_filename,
                                            sheetName=verifySheet)
 
-            res = importDictionaryV2(worksheetAction=wsVerify, functionDictionary=functionDictionary,
-                                     dictionaryType="verify")
+            res = importDictionary(worksheetAction=wsVerify, functionDictionary=functionDictionary,
+                                   dictionaryType="verify")
             if res == 1:
                 print("MINOR: Error of importDictionary found in " + self.function_verify_filename + ",sheet : " + verifySheet)
                 exit()
 
-            # wsVerify2 = importFunctionFiles(fileName=function_verify_filename, sheetName=function_verify_sheetName[1])
-            #
-            # res = importDictionaryV2(worksheetAction=wsVerify2, functionDictionary=functionDictionary, dictionaryType="verify")
-            # if res == 1:
-            #     print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheetName[1])
-            #     exit()
-            #
-            # wsVerify3 = importFunctionFiles(fileName=function_verify_filename, sheetName=function_verify_sheetName[2])
-            #
-            # res = importDictionaryV2(worksheetAction=wsVerify3, functionDictionary=functionDictionary, dictionaryType="verify")
-            # if res == 1:
-            #     print("MINOR: Error found in " + function_verify_filename + ",sheet : " + function_verify_sheetName[2])
-            #     exit()
-
         for k in functionDictionary:
             print(k)
 
-        # wsAction = importFunctionFiles(fileName=function_actions_filename, sheetName=function_actions_sheetName)
-
-        # res = importDictionaryV2(worksheetAction=wsAction, functionDictionary=functionDictionary, dictionaryType="verify")
-        # if res == 1:
-        #    print("MINOR: Error found in " + function_actions_filename + ",sheet : " + function_actions_sheetName)
-        #    exit()
-
         print("dizionario acquisito")
-
-        # build_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175\\F175_TC_HIL_Integration_Build.xlsx"
-        # build_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\TC_AF\\2-TC_Build\\F175\\TC_Integration\\F175_TC_HIL_Integration_Build.xlsx"
-        # source_sheet = "Sleep"
-        # source_sheet = "Test case"
-        # run_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\3-TC_Run\\F175_TC_HIL_Integration_Run_20211126.xlsx"
 
         wbBuild, wsBuild = importBuildFile(fileName=self.build_filename,
                                            sheetName=self.source_sheet)
-
         print("import build file")
 
         wbRun, wsRun = generateRunFileFromBuildFile(workbookBuild=wbBuild,
@@ -99,7 +71,6 @@ class HIL_Functions_Handler:
         print("find expressions done")
 
         substituteFunctions(swStart=wsBuild, wsEnd=wsRun, substitutionDictionary=functionDictionary, copyStyle=True)
-
         print("substitution done")
 
         # disableSequences(worksheet=wsRun)
