@@ -1,4 +1,5 @@
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QMessageBox, QVBoxLayout, QLabel, QFrame, QGridLayout, \
     QLineEdit, QFileDialog
 
@@ -15,7 +16,7 @@ class HIL_Function_Widget(QWidget):
         title_label.setFrameStyle(QFrame.Sunken)
         title_label.setAlignment(Qt.AlignCenter)
         title_label.setText("HIL Tool Functions ")
-        title_label.setStyleSheet('background-color: rgb(140,255,0)')
+        title_label.setStyleSheet('background-color: rgb(228, 0, 43)')
         widget_main_layout.addWidget(title_label)
         ############### INPUT FILE  ###############
         build_file_layout = QGridLayout()
@@ -31,7 +32,9 @@ class HIL_Function_Widget(QWidget):
         self.build_file_path_label.setAlignment(Qt.AlignLeft)
         build_file_layout.addWidget(self.build_file_path_label, 1, 0, 1, 8)
         #
-        btn_build_file_selector = QPushButton("-|-")
+        btn_build_file_selector = QPushButton("Add ")
+        btn_build_file_selector.setIcon(QIcon('images/Plus.ico'))
+
         btn_build_file_selector.pressed.connect(self.openBuildFileDialog)
         build_file_layout.addWidget(btn_build_file_selector, 1, 8, 1, 1)
         #
@@ -61,7 +64,8 @@ class HIL_Function_Widget(QWidget):
         self.functions_file_path_label.setAlignment(Qt.AlignLeft)
         functions_file_layout.addWidget(self.functions_file_path_label, 1, 0, 1, 8)
         #
-        btn_functions_file_selector = QPushButton("-|-")
+        btn_functions_file_selector = QPushButton("Add ")
+        btn_functions_file_selector.setIcon(QIcon('images/Plus.ico'))
         btn_functions_file_selector.pressed.connect(self.openFunctionsFileDialog)
         functions_file_layout.addWidget(btn_functions_file_selector, 1, 8, 1, 1)
         ##
@@ -92,7 +96,8 @@ class HIL_Function_Widget(QWidget):
         self.run_file_path_label.setAlignment(Qt.AlignLeft)
         run_file_layout.addWidget(self.run_file_path_label, 1, 0, 1, 8)
         #
-        btn_run_file_selector = QPushButton("-|-")
+        btn_run_file_selector = QPushButton("Add ")
+        btn_run_file_selector.setIcon(QIcon('images/Plus.ico'))
         btn_run_file_selector.pressed.connect(self.saveFileDialog)
         run_file_layout.addWidget(btn_run_file_selector, 1, 8, 1, 1)
         ##
@@ -101,6 +106,7 @@ class HIL_Function_Widget(QWidget):
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
         btn_exec_tc_highlight = QPushButton("Execute HIL Functions substitution")
+        btn_exec_tc_highlight.setIcon(QIcon('images/execute-icon.jpg'))
         btn_exec_tc_highlight.pressed.connect(self.hil_substitution_exec_conversion)
         exec_row_layout.addWidget(btn_exec_tc_highlight)
         exec_row_layout.addStretch()

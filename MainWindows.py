@@ -28,6 +28,8 @@ class MainWindow(QMainWindow):
         self.width = 320
         self.height = 240
         self.setGeometry(self.left, self.top, self.width, self.height)
+        #self.setStyleSheet("background-color: rgb(220,220,220)")
+
 
         try:
             with open('pathFile.json', 'r') as json_file:
