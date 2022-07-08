@@ -1,7 +1,8 @@
 from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
 from importDictionary import importDictionary
 from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
-from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile
+from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile, TC_Build_File, \
+    Functions_File, TC_Run_File
 
 
 class HIL_Functions_Handler:
@@ -12,6 +13,11 @@ class HIL_Functions_Handler:
         self.build_filename = build_filename
         self.source_sheet = source_sheet
         self.run_filename = run_filename
+        self.build_file = None
+        self.run_file = None
+
+    def import_build_file(self):
+        self.build_file = TC_Build_File(self.build_filename, self.source_sheet)
 
     @staticmethod
     def parse_json_path_file(json_data):
@@ -35,22 +41,21 @@ class HIL_Functions_Handler:
         return function_verify_filename, function_verify_sheetName, build_filename, source_sheet, run_file_path
 
     def run(self):
-        # function_verify_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175_AF_substitutions_2021_11_23.xlsx"
-        # function_verify_sheetName = ["actions", "doors", "networks"]
 
-        # function_actions_filename = "C:\\Users\\Stefano\\Desktop\\WIP\\HIL\\2-TC_Build\\F175_AF_substitutions_2021_11_23.xlsx"
-        # function_actions_sheetName = "actions"
+        self.import_build_file()
+
+        print("import build file")
 
         functionDictionary = {}
 
         for verifySheet in self.function_verify_sheetName:
-            wsVerify = importFunctionFiles(fileName=self.function_verify_filename,
-                                           sheetName=verifySheet)
+            wsVerify = Functions_File(self.function_verify_filename, tc_sheet_name=verifySheet)
 
-            res = importDictionary(worksheetAction=wsVerify, functionDictionary=functionDictionary,
+            res = importDictionary(function_file=wsVerify, functionDictionary=functionDictionary,
                                    dictionaryType="verify")
             if res == 1:
-                print("MINOR: Error of importDictionary found in " + self.function_verify_filename + ",sheet : " + verifySheet)
+                print(
+                    "MINOR: Error of importDictionary found in " + self.function_verify_filename + ",sheet : " + verifySheet)
                 exit()
 
         for k in functionDictionary:
@@ -58,30 +63,38 @@ class HIL_Functions_Handler:
 
         print("dizionario acquisito")
 
-        wbBuild, wsBuild = importBuildFile(fileName=self.build_filename,
-                                           sheetName=self.source_sheet)
-        print("import build file")
+        self.build_file.save_copy(self.run_filename)
 
-        wbRun, wsRun = generateRunFileFromBuildFile(workbookBuild=wbBuild,
-                                                    sheetNameBuild=self.source_sheet,
-                                                    run_filename=self.run_filename)
+        self.run_file = TC_Run_File(self.run_filename, self.source_sheet)
+
+        # exit()
+        # self.build_file.generateRunFileFromBuildFile(run_filename=self.run_filename)
+
+        # exit()
+
+        # wbRun, wsRun = generateRunFileFromBuildFile(workbookBuild=wbBuild,
+        #                                            sheetNameBuild=self.source_sheet,
+        #                                            run_filename=self.run_filename)
         print("saved RUN file")
 
-        findExpressions(wsStart=wsBuild, substitutionDictionary=functionDictionary)
+        findExpressions(wsStart=self.build_file.worksheet, substitutionDictionary=functionDictionary)
         print("find expressions done")
 
-        substituteFunctions(swStart=wsBuild, wsEnd=wsRun, substitutionDictionary=functionDictionary, copyStyle=True)
+        substituteFunctions(wsStart=self.build_file.worksheet, wsEnd=self.run_file.worksheet,
+                            substitutionDictionary=functionDictionary, copyStyle=True)
         print("substitution done")
 
+
         # disableSequences(worksheet=wsRun)
-        removeTestTypeColumn(worksheet=wsRun)
-        fillTestNColumn(worksheet=wsRun)
-        fillEnableColumn(worksheet=wsRun)
-        fillStepIDCounter(worksheet=wsRun)
+        # removeTestTypeColumn(worksheet=self.run_file.worksheet)
+        fillTestNColumn(worksheet=self.run_file.worksheet)
+        fillEnableColumn(worksheet=self.run_file.worksheet)
+        fillStepIDCounter(worksheet=self.run_file.worksheet)
 
         print("other operations")
 
         # " Salva"
-        wbRun.save(filename=self.run_filename)
+        self.run_file.save()
+        #wbRun.save(filename=self.run_filename)
 
         print("file saved")

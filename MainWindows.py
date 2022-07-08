@@ -44,8 +44,8 @@ class MainWindow(QMainWindow):
         main_widget = QWidget()
 
         hil_function_widget = HIL_Function_Widget(json_data)
-        tc_highlight_widget = TC_Highlight_Widget(json_data)
-        tc_substitution_widget = TC_Substitution_Widget(json_data)
+        #tc_highlight_widget = TC_Highlight_Widget(json_data)
+        #tc_substitution_widget = TC_Substitution_Widget(json_data)
 
         self.setCentralWidget(main_widget)
 
@@ -54,9 +54,9 @@ class MainWindow(QMainWindow):
         main_widget.setTabPosition(QTabWidget.North)
         main_widget.setMovable(False)
 
-        main_widget.addTab(tc_substitution_widget, "Test Case Substitutions")
+        #main_widget.addTab(tc_substitution_widget, "Test Case Substitutions")
         main_widget.addTab(hil_function_widget, "HIL function")
-        main_widget.addTab(tc_highlight_widget, "Test Case Highlight")
+        #main_widget.addTab(tc_highlight_widget, "Test Case Highlight")
 
         self.setCentralWidget(main_widget)
 

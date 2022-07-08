@@ -20,35 +20,35 @@ def findExpressions(wsStart, substitutionDictionary):
                         print("function " + cell + " not found in dictionary")
 
 
-def substituteFunctions(swStart, wsEnd, substitutionDictionary, copyStyle=False):
-    columnEnableIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['enable_header'])
-    columnTestNIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['testN_header'])
-    columnTestIDIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['testID_header'])
-    columnDescriptionIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['stepDescr_header'])
-    columnPreconditionIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['precondition_header'])
-    columnActionIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['action_header'])
-    columnExpectedResIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['expected_header'])
-    columnTimeStepIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['timeStep_header'])
-    columnSampleTimeIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['sampleTime_header'])
-    columnToleranceIndex = getColumnIndexFromString(swStart, file_TC_BUILD_Column['tolerance_header'])
+def substituteFunctions(wsStart, wsEnd, substitutionDictionary, copyStyle=False):
+    columnEnableIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['enable_header'])
+    columnTestNIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['testN_header'])
+    columnTestIDIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['testID_header'])
+    columnDescriptionIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['stepDescr_header'])
+    columnPreconditionIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['precondition_header'])
+    columnActionIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['action_header'])
+    columnExpectedResIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['expected_header'])
+    columnTimeStepIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['timeStep_header'])
+    columnSampleTimeIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['sampleTime_header'])
+    columnToleranceIndex = getColumnIndexFromString(wsStart, file_TC_BUILD_Column['tolerance_header'])
 
-    columnEnableLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['enable_header'])
-    columnTestNLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['testN_header'])
-    columnDescriptionLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['stepDescr_header'])
-    columnPreconditionLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['precondition_header'])
-    columnActionLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['action_header'])
-    columnExpectedResLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['expected_header'])
-    columnTimeStepLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['timeStep_header'])
-    columnSampleTimeLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['sampleTime_header'])
-    columnToleranceLetter = getColumnLetterFromString(swStart, file_TC_BUILD_Column['tolerance_header'])
+    columnEnableLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['enable_header'])
+    columnTestNLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['testN_header'])
+    columnDescriptionLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['stepDescr_header'])
+    columnPreconditionLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['precondition_header'])
+    columnActionLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['action_header'])
+    columnExpectedResLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['expected_header'])
+    columnTimeStepLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['timeStep_header'])
+    columnSampleTimeLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['sampleTime_header'])
+    columnToleranceLetter = getColumnLetterFromString(wsStart, file_TC_BUILD_Column['tolerance_header'])
 
     # startColIndex = column_index_from_string(startCol)
     # endColIndex = column_index_from_string(endCol)
     c = 0
-    translation = swStart.max_row + 15
+    translation = wsStart.max_row + 15
     rowNumEnd = translation
     rowsAdded = 0
-    for rowNumStart, row in enumerate(swStart.iter_rows(min_col=columnPreconditionIndex,
+    for rowNumStart, row in enumerate(wsStart.iter_rows(min_col=columnPreconditionIndex,
                                                         max_col=columnExpectedResIndex), start=1):
         foundStringToSubstitute = False
         for colNum, cell in enumerate(row, start=columnPreconditionIndex):
@@ -63,7 +63,7 @@ def substituteFunctions(swStart, wsEnd, substitutionDictionary, copyStyle=False)
                         if functionName in substitutionDictionary:
                             foundStringToSubstitute = True
                             # enableCell = worksheetStart.cell(row=rowNumStart, column=columnEnableIndex)
-                            testNCell = swStart.cell(row=rowNumStart, column=columnTestNIndex)
+                            testNCell = wsStart.cell(row=rowNumStart, column=columnTestNIndex)
                             # testIDCell = worksheetStart.cell(row=rowNumStart, column=columnTestIDIndex)
                             # parametersList
                             # for dataNum, t in enumerate(substitutionDictionary[functionName]['data']):

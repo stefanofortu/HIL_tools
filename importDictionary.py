@@ -1,5 +1,6 @@
 from collections import namedtuple
 from utils.excelUtils import getColumnLetterFromString, getColumnIndexFromString
+from utils.fileImporter import Functions_File
 from utils.fileTemplateConfiguration import file_Tools_Verify_Column
 from utils.DebugPrint import debugPrint
 
@@ -21,49 +22,51 @@ from utils.DebugPrint import debugPrint
 singleTestStep = namedtuple('singleTestStep', ['enable', 'descr', 'act', 'exp', 'timeStep', 'sampleTime', 'tolerance'])
 
 
-def importDictionary(worksheetAction, functionDictionary, dictionaryType):
-    fieldType_Col_Index = getColumnIndexFromString(worksheetAction, file_Tools_Verify_Column['fieldType_header'])
-    valueLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['value_header'])
-    enableLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['enable_header'])
-    stepDescriptionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['stepDescr_header'])
-    preconditionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['precondition_header'])
-    expectedLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['expected_header'])
-    timeStepLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['timeStep_header'])
-    sampleTimeLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['sampleTime_header'])
-    toleranceLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['tolerance_header'])
+def importDictionary(function_file, functionDictionary, dictionaryType):
+    if not isinstance(function_file, Functions_File):
+        print("ERROR: Please provide a correct function_file to function importDictionary()")
+        exit()
+    #fieldType_Col_Index = getColumnIndexFromString(worksheetAction, file_Tools_Verify_Column['fieldType_header'])
+    #valueLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['value_header'])
+    #enableLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['enable_header'])
+    #stepDescriptionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['stepDescr_header'])
+    #preconditionLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['precondition_header'])
+    ##expectedLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['expected_header'])
+    #timeStepLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['timeStep_header'])
+    #sampleTimeLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['sampleTime_header'])
+    #toleranceLetter = getColumnLetterFromString(worksheetAction, file_Tools_Verify_Column['tolerance_header'])
 
     functionName = ""
-    for col in worksheetAction.iter_cols(min_col=fieldType_Col_Index,
-                                         max_col=fieldType_Col_Index,
-                                         min_row=2,
-                                         values_only=True):
+    for col in function_file.worksheet.iter_cols(min_col=function_file.fieldType_col_index,
+                                                 max_col=function_file.fieldType_col_index,
+                                                 min_row=2,
+                                                 values_only=True):
         for rowNum, rowValue in enumerate(col, start=2):
             if rowValue == "<function>":
-                functionName = worksheetAction[valueLetter + str(rowNum)].value
+                functionName = function_file.worksheet[function_file.value_col_letter + str(rowNum)].value
                 if functionName not in functionDictionary:
                     functionDictionary[functionName] = {'startRow': rowNum, 'endRow': rowNum,
                                                         'parameters': [], 'data': []}
             elif rowValue == "<step>":
-                s = singleTestStep(worksheetAction[enableLetter + str(rowNum)].value,
-                                   worksheetAction[stepDescriptionLetter + str(rowNum)].value,
-                                   worksheetAction[preconditionLetter + str(rowNum)].value,
-                                   worksheetAction[expectedLetter + str(rowNum)].value,
-                                   worksheetAction[timeStepLetter + str(rowNum)].value,
-                                   worksheetAction[sampleTimeLetter + str(rowNum)].value,
-                                   worksheetAction[toleranceLetter + str(rowNum)].value)
+                s = singleTestStep(function_file.worksheet[function_file.enable_col_letter + str(rowNum)].value,
+                                   function_file.worksheet[function_file.step_description_col_letter+ str(rowNum)].value,
+                                   function_file.worksheet[function_file.precondition_col_letter + str(rowNum)].value,
+                                   function_file.worksheet[function_file.expected_result_col_letter + str(rowNum)].value,
+                                   function_file.worksheet[function_file.time_step_col_letter + str(rowNum)].value,
+                                   function_file.worksheet[function_file.sample_time_col_letter + str(rowNum)].value,
+                                   function_file.worksheet[function_file.tolerance_col_letter + str(rowNum)].value)
                 if functionName != "":
                     functionDictionary[functionName]['endRow'] = rowNum
                     functionDictionary[functionName]['data'].append(s)
             elif rowValue == "<parameter>":
                 if functionName != "":
-                    parameterName = worksheetAction[valueLetter + str(rowNum)].value
+                    parameterName = function_file.worksheet[function_file.value_col_letter + str(rowNum)].value
                     functionDictionary[functionName]['parameters'].append(parameterName)
             else:
                 print(rowNum)
-                print(worksheetAction)
+                print(function_file.worksheet)
                 return 1
                 raise KeyError
-
     # worksheetEnd[worksheetAction + str(newRowPos)].value
     # s = singleTestStep(worksheetAction[columnDescriptionLetter + str(rowNum)].value,
     #                    worksheetAction[columnActionLetter + str(rowNum)].value,
@@ -80,7 +83,6 @@ def importDictionary(worksheetAction, functionDictionary, dictionaryType):
     #     else:
     #         print("MError - duplicated values found : " + cellValue)
     #         exit()
-
 
 #     for rowNum, cellValue in enumerate(rows, start=1):
 #         if isinstance(cellValue, str) and len(cellValue) > 2:
