@@ -33,7 +33,7 @@ class HIL_Function_Widget(QWidget):
         build_file_layout.addWidget(self.build_file_path_label, 1, 0, 1, 8)
         #
         btn_build_file_selector = QPushButton("Add ")
-        btn_build_file_selector.setIcon(QIcon('images/Plus.ico'))
+        btn_build_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
 
         btn_build_file_selector.pressed.connect(self.openBuildFileDialog)
         build_file_layout.addWidget(btn_build_file_selector, 1, 8, 1, 1)
@@ -65,7 +65,7 @@ class HIL_Function_Widget(QWidget):
         functions_file_layout.addWidget(self.functions_file_path_label, 1, 0, 1, 8)
         #
         btn_functions_file_selector = QPushButton("Add ")
-        btn_functions_file_selector.setIcon(QIcon('images/Plus.ico'))
+        btn_functions_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
         btn_functions_file_selector.pressed.connect(self.openFunctionsFileDialog)
         functions_file_layout.addWidget(btn_functions_file_selector, 1, 8, 1, 1)
         ##
@@ -97,7 +97,7 @@ class HIL_Function_Widget(QWidget):
         run_file_layout.addWidget(self.run_file_path_label, 1, 0, 1, 8)
         #
         btn_run_file_selector = QPushButton("Add ")
-        btn_run_file_selector.setIcon(QIcon('images/Plus.ico'))
+        btn_run_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
         btn_run_file_selector.pressed.connect(self.saveFileDialog)
         run_file_layout.addWidget(btn_run_file_selector, 1, 8, 1, 1)
         ##
@@ -136,6 +136,7 @@ class HIL_Function_Widget(QWidget):
         self.run_file_path_label.setText(run_file_path)
 
     def hil_substitution_exec_conversion(self):
+        self.hil_functions_handler.source_sheet = self.build_sheet_line_edit.text()
         self.hil_functions_handler.run()
 
     def openBuildFileDialog(self):
@@ -143,8 +144,8 @@ class HIL_Function_Widget(QWidget):
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.tc_input_file_name = fileName
-            self.input_file_path_label.setText(fileName)
+            self.hil_functions_handler.build_filename = fileName
+            self.build_file_path_label.setText(fileName)
 
     def openFunctionsFileDialog(self):
         # options = QFileDialog.Options()
