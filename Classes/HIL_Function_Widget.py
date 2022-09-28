@@ -105,10 +105,10 @@ class HIL_Function_Widget(QWidget):
         ############### START CONVERSION ###############
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
-        btn_exec_tc_highlight = QPushButton("Execute HIL Functions substitution")
-        btn_exec_tc_highlight.setIcon(QIcon('images/execute-icon.jpg'))
-        btn_exec_tc_highlight.pressed.connect(self.hil_substitution_exec_conversion)
-        exec_row_layout.addWidget(btn_exec_tc_highlight)
+        btn_exec_hil_function = QPushButton("Execute HIL Functions substitution")
+        btn_exec_hil_function.setIcon(QIcon('images/execute-icon.jpg'))
+        btn_exec_hil_function.pressed.connect(self.hil_substitution_exec_conversion)
+        exec_row_layout.addWidget(btn_exec_hil_function)
         exec_row_layout.addStretch()
         widget_main_layout.addLayout(exec_row_layout)
         ###############

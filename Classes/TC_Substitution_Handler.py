@@ -13,6 +13,9 @@ class TC_Substitution_Handler:
         self.find_replace_file_path = find_replace_file_path
         self.find_replace_file_sheet = find_replace_file_sheet
         self.output_file_path = output_file_path
+        self.input_file = None
+        self.find_replace_file = None
+        self.output_file = None
 
     @staticmethod
     def parse_json_path_file(json_data):

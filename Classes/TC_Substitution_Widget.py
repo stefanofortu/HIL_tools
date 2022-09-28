@@ -1,4 +1,5 @@
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QMessageBox, QLabel, QFrame, QGridLayout, \
     QLineEdit, QFileDialog
 from Classes.TC_Substitution_Handler import TC_Substitution_Handler
@@ -30,7 +31,9 @@ class TC_Substitution_Widget(QWidget):
         self.input_file_path_label.setAlignment(Qt.AlignLeft)
         input_file_layout.addWidget(self.input_file_path_label, 1, 0, 1, 8)
         #
-        btn_input_file_selector = QPushButton("-|-")
+        btn_input_file_selector = QPushButton("Add ")
+        btn_input_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        #btn_input_file_selector.setToolTip("<b>HTML</b> <i>can</i> be shown too..")
         btn_input_file_selector.pressed.connect(self.openInputFileDialog)
         input_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
         ##
@@ -60,7 +63,8 @@ class TC_Substitution_Widget(QWidget):
         self.fr_file_path_label.setAlignment(Qt.AlignLeft)
         fr_file_layout.addWidget(self.fr_file_path_label, 1, 0, 1, 8)
         #
-        btn_fr_file_selector = QPushButton("-|-")
+        btn_fr_file_selector = QPushButton("Add ")
+        btn_fr_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
         btn_fr_file_selector.pressed.connect(self.openFindReplaceFileDialog)
         fr_file_layout.addWidget(btn_fr_file_selector, 1, 8, 1, 1)
         ##
@@ -91,7 +95,8 @@ class TC_Substitution_Widget(QWidget):
         self.output_file_path_label.setAlignment(Qt.AlignLeft)
         output_file_layout.addWidget(self.output_file_path_label, 1, 0, 1, 8)
         #
-        btn_output_file_selector = QPushButton("-|-")
+        btn_output_file_selector = QPushButton("Add ")
+        btn_output_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
         btn_output_file_selector.pressed.connect(self.saveFileDialog)
         output_file_layout.addWidget(btn_output_file_selector, 1, 8, 1, 1)
         ##
@@ -99,9 +104,10 @@ class TC_Substitution_Widget(QWidget):
         ############### START CONVERSION ###############
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
-        btn_exec_tc_highlight = QPushButton("Execute Multiple Rows substitution")
-        btn_exec_tc_highlight.pressed.connect(self.tc_substitution_exec_conversion)
-        exec_row_layout.addWidget(btn_exec_tc_highlight)
+        btn_exec_tc_substitution = QPushButton("Execute Multiple Rows substitution")
+        btn_exec_tc_substitution.setIcon(QIcon('images/execute-icon.jpg'))
+        btn_exec_tc_substitution.pressed.connect(self.tc_substitution_exec_conversion)
+        exec_row_layout.addWidget(btn_exec_tc_substitution)
         exec_row_layout.addStretch()
         widget_main_layout.addLayout(exec_row_layout)
         ###############
