@@ -32,7 +32,7 @@ class TC_Substitution_Widget(QWidget):
         input_file_layout.addWidget(self.input_file_path_label, 1, 0, 1, 8)
         #
         btn_input_file_selector = QPushButton("Add ")
-        btn_input_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        btn_input_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
         #btn_input_file_selector.setToolTip("<b>HTML</b> <i>can</i> be shown too..")
         btn_input_file_selector.pressed.connect(self.openInputFileDialog)
         input_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
@@ -64,7 +64,7 @@ class TC_Substitution_Widget(QWidget):
         fr_file_layout.addWidget(self.fr_file_path_label, 1, 0, 1, 8)
         #
         btn_fr_file_selector = QPushButton("Add ")
-        btn_fr_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        btn_fr_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
         btn_fr_file_selector.pressed.connect(self.openFindReplaceFileDialog)
         fr_file_layout.addWidget(btn_fr_file_selector, 1, 8, 1, 1)
         ##
@@ -96,21 +96,27 @@ class TC_Substitution_Widget(QWidget):
         output_file_layout.addWidget(self.output_file_path_label, 1, 0, 1, 8)
         #
         btn_output_file_selector = QPushButton("Add ")
-        btn_output_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        btn_output_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
         btn_output_file_selector.pressed.connect(self.saveFileDialog)
         output_file_layout.addWidget(btn_output_file_selector, 1, 8, 1, 1)
         ##
         widget_main_layout.addLayout(output_file_layout)
-        ############### START CONVERSION ###############
+        ############### START SUBSTITUTION ###############
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
-        btn_exec_tc_substitution = QPushButton("Execute Multiple Rows substitution")
-        btn_exec_tc_substitution.setIcon(QIcon('images/execute-icon.jpg'))
+        btn_exec_tc_substitution = QPushButton("Execute substitution")
+        btn_exec_tc_substitution.setIcon(QIcon('icons/execute-icon.jpg'))
         btn_exec_tc_substitution.pressed.connect(self.tc_substitution_exec_conversion)
         exec_row_layout.addWidget(btn_exec_tc_substitution)
-        exec_row_layout.addStretch()
+
         widget_main_layout.addLayout(exec_row_layout)
-        ###############
+        ############### START CLEANING EMPTY_ROW ###############
+        btn_exec_tc_cleanup = QPushButton("Execute Cleanup")
+        btn_exec_tc_cleanup.setIcon(QIcon('icons/cleanup-icon-small.jpg'))
+        btn_exec_tc_cleanup.pressed.connect(self.tc_substitution_exec_cleanup)
+        exec_row_layout.addWidget(btn_exec_tc_cleanup)
+        exec_row_layout.addStretch()
+        ############### SET MAIN LAYOUT
         self.setLayout(widget_main_layout)
         ############### GUI END
 
@@ -138,7 +144,12 @@ class TC_Substitution_Widget(QWidget):
         self.tc_substitution_handler.input_file_sheet = self.input_sheet_line_edit.text()
         self.tc_substitution_handler.find_replace_file_sheet = self.fr_sheet_line_edit.text()
 
-        self.tc_substitution_handler.exec_CAN_insertion()
+        self.tc_substitution_handler.exec_substitution()
+
+    def tc_substitution_exec_cleanup(self):
+        self.tc_substitution_handler.input_file_sheet = self.input_sheet_line_edit.text()
+
+        self.tc_substitution_handler.exec_cleanup()
 
     def openInputFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Select input xlsx file", "",

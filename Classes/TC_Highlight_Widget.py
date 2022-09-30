@@ -32,7 +32,7 @@ class TC_Highlight_Widget(QWidget):
         input_file_layout.addWidget(self.input_file_path_label, 1, 0, 1, 8)
         #
         btn_input_file_selector = QPushButton("Add ")
-        btn_input_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        btn_input_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
         btn_input_file_selector.pressed.connect(self.openExcelFileDialog)
         input_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
         ##
@@ -64,7 +64,7 @@ class TC_Highlight_Widget(QWidget):
         output_file_layout.addWidget(self.output_file_path_label, 1, 0, 1, 8)
         #
         btn_input_file_selector = QPushButton("Add ")
-        btn_input_file_selector.setIcon(QIcon('images/folder-icon.jpg'))
+        btn_input_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
         btn_input_file_selector.pressed.connect(self.saveFileDialog)
         output_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
         ##
@@ -73,7 +73,7 @@ class TC_Highlight_Widget(QWidget):
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
         btn_exec_tc_highlight = QPushButton("exec TC Highlight")
-        btn_exec_tc_highlight.setIcon(QIcon('images/execute-icon.jpg'))
+        btn_exec_tc_highlight.setIcon(QIcon('icons/execute-icon.jpg'))
         btn_exec_tc_highlight.pressed.connect(self.tc_highlight_exec_conversion)
         exec_row_layout.addWidget(btn_exec_tc_highlight)
         exec_row_layout.addStretch()

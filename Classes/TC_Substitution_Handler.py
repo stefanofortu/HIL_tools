@@ -1,4 +1,4 @@
-from utils.excelUtils import getColumnIndexFromString
+from utils.excelUtils import getColumnIndexFromString, remove_empty_consecutive_rows
 import sys
 import json
 from openpyxl import load_workbook
@@ -75,7 +75,7 @@ class TC_Substitution_Handler:
 
         return outCell
 
-    def exec_CAN_insertion(self):
+    def exec_substitution(self):
         """ This is a quick summary line used as a description of the object.
         quick summary line used as a description of the object
         quick summary line used as a description of the object
@@ -150,37 +150,30 @@ class TC_Substitution_Handler:
             # optbook.close()
 
         print("substitution : DONE")
+        wbOut.save(filename=self.output_file_path)
+
+        print("file output saving : DONE")
+
+    def exec_cleanup(self):
+
+        wb_in = load_workbook(self.input_file_path)
+        ws_in = wb_in[self.input_file_sheet]
+
+        print("import input file : DONE")
+        wb_in.save(filename=self.output_file_path)
+
+        wbOut = load_workbook(self.output_file_path)
+        wsOut = wbOut[self.input_file_sheet]
+
+        print("saved Copy of Input file: DONE")
 
         for col in wsOut.iter_cols(min_row=1, max_row=1640, min_col=18, max_col=20):
             for cell in col:
                 if isinstance(cell.value, str):
                     cellString = cell.value
-                    splitvalue = cellString.split('\n')
-                    rowToRemove = []
-                    # for i, elem in enumerate(splitvalue):
-                    #    print(str(i) + " : " + elem)
-                    # print("len :" + str(len(splitvalue)))
-                    for i in range(0, len(splitvalue)):
-                        if splitvalue[i] == "":
-                            if i < len(splitvalue) - 1:
-                                if splitvalue[i + 1] == "":
-                                    rowToRemove.append(i)
-                            else:
-                                rowToRemove.append(i)
-                    rowToRemove.reverse()
-                    # print(rowToRemove)
-                    for r in rowToRemove:
-                        splitvalue.pop(r)
-                    # print(splitvalue)
-
-                    # newCellValue = groupby(splitvalue)
-                    # print(newCellValue)
-                    # newCellValue = replaceCell(splitvalue, find_array, replace_array)
-                    cellNewValueString = '\n'.join(splitvalue)
-                    # print(len(cellNewValueString))
-                    # print(cellNewValueString)
-
+                    cellNewValueString = remove_empty_consecutive_rows(cellString)
                     cell.value = str(cellNewValueString)
+
         print("cancellazioni righe vuote : DONE")
 
         wbOut.save(filename=self.output_file_path)
