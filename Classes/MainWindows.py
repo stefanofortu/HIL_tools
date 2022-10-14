@@ -1,9 +1,6 @@
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFrame, QSplitter, QTabWidget, QToolBar, QStatusBar
-from PySide6.QtWidgets import QApplication
-import sys
-import json
+from PySide6.QtWidgets import QMainWindow, QWidget, QFrame, QTabWidget, QToolBar, QStatusBar
 
 from Classes.Configuration_Data import HIL_Function_Configuration_Data, TC_Highlight_Configuration_Data
 from Classes.Configuration_File import Configuration_File
@@ -11,15 +8,7 @@ from Classes.HIL_Function_Widget import HIL_Function_Widget
 from Classes.TC_Highlight_Widget import TC_Highlight_Widget
 from Classes.TC_Substitution_Handler import TC_Substitution_Configuration_Data
 from Classes.TC_Substitution_Widget import TC_Substitution_Widget
-
-
-class Separation_Line(QFrame):
-    def __init__(self):
-        super().__init__()
-        self.setFrameShape(QFrame.HLine)
-        self.setMinimumHeight(3)
-        self.setFrameShadow(QFrame.Sunken)
-        self.setStyleSheet('background-color: rgb(255,0,0)')
+from icons.resources import resource_path
 
 
 class MainWindow(QMainWindow):
@@ -34,19 +23,19 @@ class MainWindow(QMainWindow):
         # self.setStyleSheet("background-color: rgb(220,220,220)")
         self.configuration_file = Configuration_File()
 
-        toolbar_action_new = QAction(QIcon("icons/new_configuration.png"), "New", self)
+        toolbar_action_new = QAction(QIcon(resource_path("new_configuration.png")), "New", self)
         toolbar_action_new.setStatusTip("Create new configuration")
         toolbar_action_new.triggered.connect(self.configuration_file.new)
 
-        toolbar_action_open = QAction(QIcon("icons/open.jpg"), "Open", self)
+        toolbar_action_open = QAction(QIcon(resource_path("open.jpg")), "Open", self)
         toolbar_action_open.setStatusTip("Open existing configuration")
         toolbar_action_open.triggered.connect(self.open_configuration_file)
 
-        toolbar_action_save = QAction(QIcon("icons/save.ico"), "Save", self)
+        toolbar_action_save = QAction(QIcon(resource_path("save.ico")), "Save", self)
         toolbar_action_save.setStatusTip("Save current configuration")
         toolbar_action_save.triggered.connect(self.save_configuration_file)
 
-        toolbar_action_save_as = QAction(QIcon("icons/save_as.jpeg"), "Save as", self)
+        toolbar_action_save_as = QAction(QIcon(resource_path("save_as.jpeg")), "Save as", self)
         toolbar_action_save_as.setStatusTip("Save new configuration")
         toolbar_action_save_as.triggered.connect(self.save_configuration_file_as)
 
@@ -126,11 +115,3 @@ class MainWindow(QMainWindow):
                                      tc_highlight_data=tc_highlight_data.return_json_dict(),
                                      tc_substitution_data=tc_substitution_data.return_json_dict(),
                                      select_new_file=True)
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_window = MainWindow()
-
-    main_window.show()
-    sys.exit(app.exec())

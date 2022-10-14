@@ -3,6 +3,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QMessageBox, QLabel, QFrame, QGridLayout, \
     QLineEdit, QFileDialog
 from Classes.TC_Substitution_Handler import TC_Substitution_Handler
+from icons.resources import resource_path
 
 
 class TC_Substitution_Widget(QWidget):
@@ -32,7 +33,7 @@ class TC_Substitution_Widget(QWidget):
         input_file_layout.addWidget(self.input_file_path_label, 1, 0, 1, 8)
         #
         btn_input_file_selector = QPushButton("Add ")
-        btn_input_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
+        btn_input_file_selector.setIcon(QIcon(resource_path("folder-icon.jpg")))
         #btn_input_file_selector.setToolTip("<b>HTML</b> <i>can</i> be shown too..")
         btn_input_file_selector.pressed.connect(self.openInputFileDialog)
         input_file_layout.addWidget(btn_input_file_selector, 1, 8, 1, 1)
@@ -64,7 +65,7 @@ class TC_Substitution_Widget(QWidget):
         fr_file_layout.addWidget(self.fr_file_path_label, 1, 0, 1, 8)
         #
         btn_fr_file_selector = QPushButton("Add ")
-        btn_fr_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
+        btn_fr_file_selector.setIcon(QIcon(resource_path("folder-icon.jpg")))
         btn_fr_file_selector.pressed.connect(self.openFindReplaceFileDialog)
         fr_file_layout.addWidget(btn_fr_file_selector, 1, 8, 1, 1)
         ##
@@ -96,7 +97,7 @@ class TC_Substitution_Widget(QWidget):
         output_file_layout.addWidget(self.output_file_path_label, 1, 0, 1, 8)
         #
         btn_output_file_selector = QPushButton("Add ")
-        btn_output_file_selector.setIcon(QIcon('icons/folder-icon.jpg'))
+        btn_output_file_selector.setIcon(QIcon(resource_path('folder-icon.jpg')))
         btn_output_file_selector.pressed.connect(self.saveFileDialog)
         output_file_layout.addWidget(btn_output_file_selector, 1, 8, 1, 1)
         ##
@@ -105,14 +106,14 @@ class TC_Substitution_Widget(QWidget):
         exec_row_layout = QHBoxLayout()
         exec_row_layout.addStretch()
         btn_exec_tc_substitution = QPushButton("Execute substitution")
-        btn_exec_tc_substitution.setIcon(QIcon('icons/execute-icon.jpg'))
+        btn_exec_tc_substitution.setIcon(QIcon(resource_path('execute-icon.jpg')))
         btn_exec_tc_substitution.pressed.connect(self.tc_substitution_exec_conversion)
         exec_row_layout.addWidget(btn_exec_tc_substitution)
 
         widget_main_layout.addLayout(exec_row_layout)
         ############### START CLEANING EMPTY_ROW ###############
         btn_exec_tc_cleanup = QPushButton("Execute Cleanup")
-        btn_exec_tc_cleanup.setIcon(QIcon('icons/cleanup-icon-small.jpg'))
+        btn_exec_tc_cleanup.setIcon(QIcon(resource_path('cleanup-icon-small.jpg')))
         btn_exec_tc_cleanup.pressed.connect(self.tc_substitution_exec_cleanup)
         exec_row_layout.addWidget(btn_exec_tc_cleanup)
         exec_row_layout.addStretch()
