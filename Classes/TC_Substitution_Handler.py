@@ -1,45 +1,18 @@
+from Classes.Configuration_Data import TC_Substitution_Configuration_Data
 from utils.excelUtils import getColumnIndexFromString, remove_empty_consecutive_rows
-import sys
-import json
 from openpyxl import load_workbook
 from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
 
 class TC_Substitution_Handler:
-    def __init__(self, input_file_path="", input_file_sheet="", find_replace_file_path="",
-                 find_replace_file_sheet="", output_file_path=""):
-        self.input_file_path = input_file_path
-        self.input_file_sheet = input_file_sheet
-        self.find_replace_file_path = find_replace_file_path
-        self.find_replace_file_sheet = find_replace_file_sheet
-        self.output_file_path = output_file_path
-        self.input_file = None
-        self.find_replace_file = None
-        self.output_file = None
+    def __init__(self, configuration_data=None):
+        if isinstance(configuration_data, TC_Substitution_Configuration_Data):
+            self.cfg_data = configuration_data
+        else:
+            self.cfg_data = TC_Substitution_Configuration_Data()
 
     @staticmethod
-    def parse_json_path_file(json_data):
-        find_replace_json = json_data['root']['find_replace_multiple_row']
-
-        # rootPathFile = json.load(find_replace_json)
-        input_file = find_replace_json['input_file']
-        input_file_path = input_file['path']
-        print('filePath for input file :', input_file_path)
-        input_file_sheet = input_file['sheet_name']
-        print('sheets in input file :', input_file_sheet)
-
-        find_replace_file = find_replace_json['find_replace_file']
-        find_replace_file_path = find_replace_file['path']
-        print('filePath for find&Replace file :', find_replace_file_path)
-        find_replace_file_sheet = find_replace_file['sheet_name']
-        print('sheets in find&Replace file :', find_replace_file_sheet)
-
-        output_file = find_replace_json['output_file']
-        output_file_path = output_file['path']
-        print('filePath for output file :', output_file_path)
-        return input_file_path, input_file_sheet, find_replace_file_path, find_replace_file_sheet, output_file_path
-
-    def replace_cell(self, stringList, find_array, replace_array):
+    def replace_cell(stringList, find_array, replace_array):
         outCell = []
         workCell = []
         for elem in stringList:
@@ -82,17 +55,13 @@ class TC_Substitution_Handler:
         quick summary line used as a description of the object
         """
 
-        # print('findArray for output file :', findArray)
-        # print('replaceArray for output file :', replaceArray)
-        # Closing json file
-
-        wb_in = load_workbook(self.input_file_path)
-        ws_in = wb_in[self.input_file_sheet]
+        wb_in = load_workbook(self.cfg_data.input_file_path)
+        ws_in = wb_in[self.cfg_data.input_file_sheet]
 
         print("import input file : DONE")
 
-        wb_find_replace = load_workbook(self.find_replace_file_path)
-        ws_find_replace = wb_find_replace[self.find_replace_file_sheet]
+        wb_find_replace = load_workbook(self.cfg_data.find_replace_file_path)
+        ws_find_replace = wb_find_replace[self.cfg_data.find_replace_file_sheet]
 
         print("open find replace file : DONE")
         substitution_list_from_excel = []
@@ -109,9 +78,9 @@ class TC_Substitution_Handler:
         print(substitution_list_from_excel)
         print("import find replace file : DONE")
 
-        wb_in.save(filename=self.output_file_path)
-        wbOut = load_workbook(self.output_file_path)
-        wsOut = wbOut[self.input_file_sheet]
+        wb_in.save(filename=self.cfg_data.output_file_path)
+        wbOut = load_workbook(self.cfg_data.output_file_path)
+        wsOut = wbOut[self.cfg_data.input_file_sheet]
 
         print("saved Copy of Input file: DONE")
 
@@ -150,20 +119,20 @@ class TC_Substitution_Handler:
             # optbook.close()
 
         print("substitution : DONE")
-        wbOut.save(filename=self.output_file_path)
+        wbOut.save(filename=self.cfg_data.output_file_path)
 
         print("file output saving : DONE")
 
     def exec_cleanup(self):
 
-        wb_in = load_workbook(self.input_file_path)
-        ws_in = wb_in[self.input_file_sheet]
+        wb_in = load_workbook(self.cfg_data.input_file_path)
+        ws_in = wb_in[self.cfg_data.input_file_sheet]
 
         print("import input file : DONE")
-        wb_in.save(filename=self.output_file_path)
+        wb_in.save(filename=self.cfg_data.output_file_path)
 
-        wbOut = load_workbook(self.output_file_path)
-        wsOut = wbOut[self.input_file_sheet]
+        wbOut = load_workbook(self.cfg_data.output_file_path)
+        wsOut = wbOut[self.cfg_data.input_file_sheet]
 
         print("saved Copy of Input file: DONE")
 
@@ -176,6 +145,6 @@ class TC_Substitution_Handler:
 
         print("cancellazioni righe vuote : DONE")
 
-        wbOut.save(filename=self.output_file_path)
+        wbOut.save(filename=self.cfg_data.output_file_path)
 
         print("file output saving : DONE")

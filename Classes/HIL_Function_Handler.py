@@ -1,5 +1,5 @@
-from fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
-from importDictionary import importDictionary
+from utils.fillers import fillTestNColumn, fillEnableColumn, fillStepIDCounter
+from utils.importDictionary import importDictionary
 from utils.expressionSubtitution import substituteFunctions, removeTestTypeColumn, findExpressions
 from utils.fileImporter import importFunctionFiles, importBuildFile, generateRunFileFromBuildFile, TC_Build_File, \
     Functions_File, TC_Run_File

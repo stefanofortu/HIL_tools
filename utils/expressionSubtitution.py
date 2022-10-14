@@ -2,7 +2,7 @@ from openpyxl.styles import Alignment
 
 from utils.fileTemplateConfiguration import file_TC_BUILD_Column
 from utils.excelUtils import getColumnIndexFromString, getColumnLetterFromString
-from importDictionary import singleTestStep
+from utils.importDictionary import singleTestStep
 from copy import copy
 from openpyxl.utils import get_column_letter
 

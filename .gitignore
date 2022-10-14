@@ -4,3 +4,4 @@ __pycache__/
 .idea/
 installer/build
 ~$*.xlsx
+*.json

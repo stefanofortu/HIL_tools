@@ -6,7 +6,7 @@ from Classes.TC_Substitution_Handler import TC_Substitution_Handler
 
 
 class TC_Substitution_Widget(QWidget):
-    def __init__(self, json_data):
+    def __init__(self, tc_substitution_data):
         super().__init__()
         widget_main_layout = QVBoxLayout()
         ############### TITLE LABEL ###############
@@ -119,35 +119,41 @@ class TC_Substitution_Widget(QWidget):
         ############### SET MAIN LAYOUT
         self.setLayout(widget_main_layout)
         ############### GUI END
+        self.tc_substitution_handler = TC_Substitution_Handler(tc_substitution_data)
+        self.update_cfg_data_gui()
 
-        self.tc_substitution_handler = TC_Substitution_Handler()
+    def update_handler(self, tc_substitution_data):
+        self.tc_substitution_handler = TC_Substitution_Handler(tc_substitution_data)
+        self.update_cfg_data_gui()
 
-        in_file_path, in_file_sheet, fr_file_path, fr_file_sheet, out_file_path = \
-            TC_Substitution_Handler.parse_json_path_file(json_data)
 
-        self.tc_substitution_handler.input_file_path = in_file_path
-        self.input_file_path_label.setText(in_file_path)
+    def update_cfg_data_gui(self):
+        #in_file_path, in_file_sheet, fr_file_path, fr_file_sheet, out_file_path = \
+        #    TC_Substitution_Handler.parse_json_path_file(json_data)
 
-        self.tc_substitution_handler.input_file_sheet = in_file_sheet
-        self.input_sheet_line_edit.setText(in_file_sheet)
+        #self.tc_substitution_handler.input_file_path = in_file_path
+        self.input_file_path_label.setText(self.tc_substitution_handler.cfg_data.input_file_path)
 
-        self.tc_substitution_handler.find_replace_file_path = fr_file_path
-        self.fr_file_path_label.setText(fr_file_path)
+        #self.tc_substitution_handler.input_file_sheet = in_file_sheet
+        self.input_sheet_line_edit.setText(self.tc_substitution_handler.cfg_data.input_file_sheet)
 
-        self.tc_substitution_handler.find_replace_file_sheet = fr_file_sheet
-        self.fr_sheet_line_edit.setText(fr_file_sheet)
+        #self.tc_substitution_handler.find_replace_file_path = fr_file_path
+        self.fr_file_path_label.setText(self.tc_substitution_handler.cfg_data.find_replace_file_path)
 
-        self.tc_substitution_handler.output_file_path = out_file_path
-        self.output_file_path_label.setText(out_file_path)
+        #self.tc_substitution_handler.find_replace_file_sheet = fr_file_sheet
+        self.fr_sheet_line_edit.setText(self.tc_substitution_handler.cfg_data.find_replace_file_sheet)
+
+        #self.tc_substitution_handler.output_file_path = out_file_path
+        self.output_file_path_label.setText(self.tc_substitution_handler.cfg_data.output_file_path)
 
     def tc_substitution_exec_conversion(self):
-        self.tc_substitution_handler.input_file_sheet = self.input_sheet_line_edit.text()
-        self.tc_substitution_handler.find_replace_file_sheet = self.fr_sheet_line_edit.text()
+        self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
+        self.tc_substitution_handler.cfg_data.set_fr_file_sheet(self.fr_sheet_line_edit.text())
 
         self.tc_substitution_handler.exec_substitution()
 
     def tc_substitution_exec_cleanup(self):
-        self.tc_substitution_handler.input_file_sheet = self.input_sheet_line_edit.text()
+        self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
 
         self.tc_substitution_handler.exec_cleanup()
 
@@ -156,8 +162,8 @@ class TC_Substitution_Widget(QWidget):
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.input_file_path = fileName
-            self.input_file_path_label.setText(fileName)
+            self.tc_substitution_handler.cfg_data.set_in_file_path(fileName)
+            self.update_cfg_data_gui()
 
     def openFindReplaceFileDialog(self):
         # options = QFileDialog.Options()
@@ -166,13 +172,13 @@ class TC_Substitution_Widget(QWidget):
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.find_replace_file_path = fileName
-            self.fr_file_path_label.setText(fileName)
+            self.tc_substitution_handler.cfg_data.set_fr_file_path(fileName)
+            self.update_cfg_data_gui()
 
     def saveFileDialog(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save output file", "",
+        fileName, _ = QFileDialog.getSaveFileName(self, "Select output file", "",
                                                   "Excel Files (*.xlsx)")  # , options=options)
         if fileName:
             # print(fileName)
-            self.tc_substitution_handler.output_file_path = fileName
-            self.output_file_path_label.setText(fileName)
+            self.tc_substitution_handler.cfg_data.set_out_file_path(fileName)
+            self.update_cfg_data_gui()
