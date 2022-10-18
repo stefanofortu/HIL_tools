@@ -73,18 +73,23 @@ class TC_Substitution_Configuration_Data(Configuration_Data):
         return find_replace_dict
 
     def set_in_file_path(self, data):
-        pass
+        print("checks missing")
+        self.input_file_path = data
 
     def set_in_file_sheet(self, data):
-        pass
+        print("checks missing")
+        self.input_file_sheet = data
 
     def set_fr_file_path(self, data):
-        pass
+        print("checks missing")
+        self.find_replace_file_path = data
 
     def set_fr_file_sheet(self, data):
-        pass
+        print("checks missing")
+        self.find_replace_file_sheet = data
 
     def set_out_file_path(self, data):
-        pass
+        print("checks missing")
+        self.output_file_path = data
 
     # def parse_json_dict(self, find_replace_dictionary):

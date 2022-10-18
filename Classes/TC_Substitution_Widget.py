@@ -110,13 +110,21 @@ class TC_Substitution_Widget(QWidget):
         btn_exec_tc_substitution.pressed.connect(self.tc_substitution_exec_conversion)
         exec_row_layout.addWidget(btn_exec_tc_substitution)
 
-        widget_main_layout.addLayout(exec_row_layout)
         ############### START CLEANING EMPTY_ROW ###############
         btn_exec_tc_cleanup = QPushButton("Execute Cleanup")
         btn_exec_tc_cleanup.setIcon(QIcon(resource_path('cleanup-icon-small.jpg')))
         btn_exec_tc_cleanup.pressed.connect(self.tc_substitution_exec_cleanup)
         exec_row_layout.addWidget(btn_exec_tc_cleanup)
+
+        ############### START CLEANING EMPTY_ROW ###############
+        btn_exec_tc_bullet_fix = QPushButton("Execute Bullet Fix")
+        btn_exec_tc_bullet_fix.setIcon(QIcon(resource_path('bullet_list.png')))
+        btn_exec_tc_bullet_fix.pressed.connect(self.tc_substitution_fix_bullet_list)
+        exec_row_layout.addWidget(btn_exec_tc_bullet_fix)
+
         exec_row_layout.addStretch()
+
+        widget_main_layout.addLayout(exec_row_layout)
         ############### SET MAIN LAYOUT
         self.setLayout(widget_main_layout)
         ############### GUI END
@@ -157,6 +165,11 @@ class TC_Substitution_Widget(QWidget):
         self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
 
         self.tc_substitution_handler.exec_cleanup()
+
+    def tc_substitution_fix_bullet_list(self):
+        self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
+
+        self.tc_substitution_handler.exec_bullet_lists_fix()
 
     def openInputFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Select input xlsx file", "",

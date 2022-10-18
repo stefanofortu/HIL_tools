@@ -58,3 +58,43 @@ def remove_empty_consecutive_rows(inString):
     output_string = '\n'.join(out_rows_list)
 
     return output_string
+
+
+def fix_bullet_lists(inString):
+    """ in_rows_list : input cell array """
+    in_rows_list = inString.split('\n')
+
+    # """ print input string row by row """
+    # for i, elem in enumerate(in_rows_list):
+    #     print(str(i) + " : " + elem)
+    # print("len :" + str(len(in_rows_list)))
+
+    """ output cell array : each element is a row """
+    out_rows_list = []
+
+    for r in in_rows_list:
+        """ find the position of the first 'point' """
+        pos_of_first_point = r.find('.')
+        if pos_of_first_point != -1:
+            """ create a string containing only the number """
+            string_with_number = r[0:pos_of_first_point]
+            if string_with_number.isnumeric():
+                """ aggiungi una riga con il solo numero"""
+                out_rows_list.append(string_with_number+".")
+                """ aggiungi una riga con il resto della stringa"""
+                rest_of_the_row = r[pos_of_first_point + 1:]
+                out_rows_list.append(rest_of_the_row.strip())
+            else:
+                out_rows_list.append(r)
+        else:
+            out_rows_list.append(r)
+
+    # """print output string row by row """
+    # for i, elem in enumerate(out_rows_list):
+    #     print(str(i) + " : " + elem)
+    # print("len :" + str(len(out_rows_list)))
+
+    """ join all the rows in a string """
+    output_string = '\n'.join(out_rows_list)
+
+    return output_string

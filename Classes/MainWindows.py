@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
         main_widget.insertTab(0, self.tc_substitution_widget, "Test Case Substitutions")
 
         self.setCentralWidget(main_widget)
-        self.setWindowIcon(QIcon(resource_path("tests.jpg")))
+        self.setWindowIcon(QIcon(resource_path("tests.png")))
 
     def open_configuration_file(self):
         try:
