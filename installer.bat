@@ -8,5 +8,5 @@ IF "%1"=="" (
     ECHO WARNING: Specify the version of the executable as first parameter - example: 01_04
 ) ELSE (
 	ECHO Building executable file:
-	venv\Scripts\pyinstaller --specpath installer/build  --add-data "../../icons/*;." --onefile --distpath installer --clean --workpath installer/build --name TC_tool_v%1 main.py
+	venv\Scripts\pyinstaller --specpath installer/build  --add-data "../../icons/*;." --icon "C:/Users/Stefano/PycharmProjects/HIL_tools/icons/tests.ico" --onefile --distpath installer --clean --workpath installer/build --name TC_tool_v%1 main.py
 )

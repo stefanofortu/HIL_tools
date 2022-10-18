@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
         # self.tc_highlight_widget = TC_Highlight_Widget(TC_Highlight_Configuration_Data())
         self.tc_substitution_widget = TC_Substitution_Widget(TC_Substitution_Configuration_Data())
 
-        self.setCentralWidget(main_widget)
+        # self.setCentralWidget(main_widget)
 
         main_widget = QTabWidget()
         main_widget.setDocumentMode(True)
@@ -90,6 +90,7 @@ class MainWindow(QMainWindow):
         main_widget.insertTab(0, self.tc_substitution_widget, "Test Case Substitutions")
 
         self.setCentralWidget(main_widget)
+        self.setWindowIcon(QIcon(resource_path("tests.jpg")))
 
     def open_configuration_file(self):
         try:

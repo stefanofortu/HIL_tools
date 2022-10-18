@@ -4,8 +4,6 @@ import sys
 
 if __name__ == '__main__':
 
-    import sys
-
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
         print('running in a PyInstaller bundle')
         print(sys._MEIPASS)
