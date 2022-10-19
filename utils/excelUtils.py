@@ -78,11 +78,13 @@ def fix_bullet_lists(inString):
         if pos_of_first_point != -1:
             """ create a string containing only the number """
             string_with_number = r[0:pos_of_first_point]
-            if string_with_number.isnumeric():
-                """ aggiungi una riga con il solo numero"""
-                out_rows_list.append(string_with_number+".")
-                """ aggiungi una riga con il resto della stringa"""
-                rest_of_the_row = r[pos_of_first_point + 1:]
+            """ create a string with all the rest of the string, point excluded"""
+            rest_of_the_row = r[pos_of_first_point + 1:]
+            """ if first of the point there is a number and after the point there is not an empty row"""
+            if string_with_number.isnumeric() and rest_of_the_row.strip() != "":
+                """ add a row with only number + "." """
+                out_rows_list.append(string_with_number + ".")
+                """ add the rest of the row as a new row"""
                 out_rows_list.append(rest_of_the_row.strip())
             else:
                 out_rows_list.append(r)

@@ -179,7 +179,7 @@ class TC_Substitution_Handler:
                     cellNewValueString = fix_bullet_lists(cellString)
                     cell.value = str(cellNewValueString)
 
-        print("cancellazioni righe vuote : DONE")
+        print("sistemazione elenchi puntati : DONE")
 
         wbOut.save(filename=self.cfg_data.output_file_path)
 
