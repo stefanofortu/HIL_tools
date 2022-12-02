@@ -1,14 +1,17 @@
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QIcon, QAction
-from PySide6.QtWidgets import QMainWindow, QWidget, QFrame, QTabWidget, QToolBar, QStatusBar
+from PySide6.QtWidgets import QMainWindow, QWidget, QFrame, QTabWidget, QToolBar, QStatusBar, QPlainTextEdit, \
+    QVBoxLayout
 
 from Classes.Configuration_Data import HIL_Function_Configuration_Data, TC_Highlight_Configuration_Data
 from Classes.Configuration_File import Configuration_File
 from Classes.HIL_Function_Widget import HIL_Function_Widget
+from Classes.QTextEditLogger import QTextEditLogger
 from Classes.TC_Highlight_Widget import TC_Highlight_Widget
 from Classes.TC_Substitution_Handler import TC_Substitution_Configuration_Data
 from Classes.TC_Substitution_Widget import TC_Substitution_Widget
 from icons.resources import resource_path
+import logging
 
 
 class MainWindow(QMainWindow):
@@ -71,32 +74,43 @@ class MainWindow(QMainWindow):
 
         # print(json_data)
 
-        # definisci il widget principale
-        main_widget = QWidget()
 
         # self.hil_function_widget = HIL_Function_Widget(HIL_Function_Configuration_Data())
         # self.tc_highlight_widget = TC_Highlight_Widget(TC_Highlight_Configuration_Data())
         self.tc_substitution_widget = TC_Substitution_Widget(TC_Substitution_Configuration_Data())
 
-        # self.setCentralWidget(main_widget)
-
-        main_widget = QTabWidget()
-        main_widget.setDocumentMode(True)
-        main_widget.setTabPosition(QTabWidget.North)
-        main_widget.setMovable(False)
+        # definisci il widget delle tab
+        tab_widget = QTabWidget()
+        tab_widget.setDocumentMode(True)
+        tab_widget.setTabPosition(QTabWidget.North)
+        tab_widget.setMovable(False)
 
         # main_widget.insertTab(2, self.hil_function_widget, "HIL function")
         # main_widget.insertTab(1, self.tc_highlight_widget, "Test Case Highlight")
-        main_widget.insertTab(0, self.tc_substitution_widget, "Test Case Substitutions")
+        tab_widget.insertTab(0, self.tc_substitution_widget, "Test Case Substitutions")
 
+        logTextBox = QTextEditLogger(self)
+        logging.getLogger().addHandler(logTextBox)
+
+        # Set main layout
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(tab_widget)
+        main_layout.addWidget(logTextBox.widget)
+
+        # Serve un layout a cui assegnare il layout
+        main_widget = QWidget()
+        main_widget.setLayout(main_layout)
+
+        # Set main_widget as the central layout of the main window
         self.setCentralWidget(main_widget)
-        self.setWindowIcon(QIcon(resource_path("tests.png")))
+        self.setWindowIcon(QIcon(resource_path("test_new.png")))
 
     def open_configuration_file(self):
         try:
             hil_function_file_data, tc_highlight_data, tc_substitution_data = self.configuration_file.open()
             self.tc_substitution_widget.update_handler(tc_substitution_data)
         except ValueError:
+            logging.warning("No file selected")
             self.statusBar().showMessage("No file selected", 2500)
 
     def save_configuration_file(self):
