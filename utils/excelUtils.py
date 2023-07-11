@@ -100,3 +100,17 @@ def fix_bullet_lists(inString):
     output_string = '\n'.join(out_rows_list)
 
     return output_string
+
+
+def polarion_to_excel_conversion(inString):
+    """ remove polarion character \r """
+    output_string = inString.replace("\r", "")
+    """ remove excel character : _x000d_ """
+    output_string = output_string.replace("_x000d_ ", "")
+    return output_string
+
+
+def excel_to_polarion_conversion(inString):
+    """ rimuove i \r di Polarion """
+    output_string = inString.replace("\n", "<br>")
+    return output_string

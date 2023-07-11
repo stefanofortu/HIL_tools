@@ -122,6 +122,18 @@ class TC_Substitution_Widget(QWidget):
         btn_exec_tc_bullet_fix.pressed.connect(self.tc_substitution_fix_bullet_list)
         exec_row_layout.addWidget(btn_exec_tc_bullet_fix)
 
+        ############### START POLARION TO EXCEL ###############
+        btn_exec_pol_to_xls = QPushButton("Polarion to Excel")
+        btn_exec_pol_to_xls.setIcon(QIcon(resource_path('excel.png')))
+        btn_exec_pol_to_xls.pressed.connect(self.tc_conversion_polarion_to_excel)
+        exec_row_layout.addWidget(btn_exec_pol_to_xls)
+
+        ############### START EXCEL TO POLARION ###############
+        btn_exec_pol_to_xls = QPushButton("Excel to Polarion")
+        btn_exec_pol_to_xls.setIcon(QIcon(resource_path('polarion.png')))
+        btn_exec_pol_to_xls.pressed.connect(self.tc_conversion_excel_to_polarion)
+        exec_row_layout.addWidget(btn_exec_pol_to_xls)
+
         exec_row_layout.addStretch()
 
         widget_main_layout.addLayout(exec_row_layout)
@@ -170,6 +182,17 @@ class TC_Substitution_Widget(QWidget):
         self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
 
         self.tc_substitution_handler.exec_bullet_lists_fix()
+
+    def tc_conversion_polarion_to_excel(self):
+        self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
+
+        self.tc_substitution_handler.exec_polarion_to_excel_converter()
+
+
+    def tc_conversion_excel_to_polarion(self):
+        self.tc_substitution_handler.cfg_data.set_in_file_sheet(self.input_sheet_line_edit.text())
+
+        self.tc_substitution_handler.exec_excel_to_polarion_converter()
 
     def openInputFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Select input xlsx file", "",

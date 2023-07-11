@@ -1,5 +1,8 @@
+import logging
+
 from Classes.Configuration_Data import TC_Substitution_Configuration_Data
-from utils.excelUtils import getColumnIndexFromString, remove_empty_consecutive_rows, fix_bullet_lists
+from utils.excelUtils import getColumnIndexFromString, remove_empty_consecutive_rows, fix_bullet_lists, \
+    polarion_to_excel_conversion, excel_to_polarion_conversion
 from openpyxl import load_workbook
 from utils.fileTemplateConfiguration import file_TC_MANUAL_Column
 
@@ -180,6 +183,69 @@ class TC_Substitution_Handler:
                     cell.value = str(cellNewValueString)
 
         print("sistemazione elenchi puntati : DONE")
+
+        wbOut.save(filename=self.cfg_data.output_file_path)
+
+        print("file output saving : DONE")
+
+    def exec_polarion_to_excel_converter(self):
+
+        wb_in = load_workbook(self.cfg_data.input_file_path)
+        ws_in = wb_in[self.cfg_data.input_file_sheet]
+
+        print("import input file : DONE")
+        wb_in.save(filename=self.cfg_data.output_file_path)
+
+        wbOut = load_workbook(self.cfg_data.output_file_path)
+        wsOut = wbOut[self.cfg_data.input_file_sheet]
+
+        print("saved Copy of Input file: DONE")
+
+        columnPreconditionIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['precondition_header'])
+        columnExpectedResIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['expected_header'])
+
+        for col in wsOut.iter_cols(min_row=1, max_row=1640,
+                                   min_col=columnPreconditionIndex,
+                                   max_col=columnExpectedResIndex):
+            for cell in col:
+                if isinstance(cell.value, str):
+                    cellString = cell.value
+                    cellNewValueString = polarion_to_excel_conversion(cellString)
+                    cell.value = str(cellNewValueString)
+
+        print("polarion to excel conversion: DONE")
+
+        wbOut.save(filename=self.cfg_data.output_file_path)
+
+        print("file output saving : DONE")
+
+    def exec_excel_to_polarion_converter(self):
+
+        wb_in = load_workbook(self.cfg_data.input_file_path)
+        ws_in = wb_in[self.cfg_data.input_file_sheet]
+
+        print("import input file : DONE")
+        wb_in.save(filename=self.cfg_data.output_file_path)
+
+        wbOut = load_workbook(self.cfg_data.output_file_path)
+        wsOut = wbOut[self.cfg_data.input_file_sheet]
+
+        print("saved Copy of Input file: DONE")
+
+        columnPreconditionIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['precondition_header'])
+        columnExpectedResIndex = getColumnIndexFromString(wsOut, file_TC_MANUAL_Column['expected_header'])
+        logging.debug("max row 1640.... why?")
+
+        for col in wsOut.iter_cols(min_row=1, max_row=1640,
+                                   min_col=columnPreconditionIndex,
+                                   max_col=columnExpectedResIndex):
+            for cell in col:
+                if isinstance(cell.value, str):
+                    cellString = cell.value
+                    cellNewValueString = excel_to_polarion_conversion(cellString)
+                    cell.value = str(cellNewValueString)
+
+        print("excel to polarion conversion: DONE")
 
         wbOut.save(filename=self.cfg_data.output_file_path)
 
